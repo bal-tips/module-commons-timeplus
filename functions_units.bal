@@ -1,0 +1,183 @@
+// Copyright (c) 2025 Hasitha Aravinda. All Rights Reserved.
+//
+// This software may be modified and distributed under the terms
+// of the MIT license. See the LICENSE file for details.
+
+import ballerina/time;
+
+# Gets the exact start of a given time unit
+#
+# + utcTime - The UTC time
+# + unit - The time unit (year, month, day, hour, minute, second)
+# + return - The time at the start of the unit
+public isolated function startOf(time:Utc utcTime, Unit unit) returns time:Utc|time:Error {
+    time:Civil civilTime = time:utcToCivil(utcTime);
+    
+    match unit {
+        YEAR => {
+            time:Civil startCivil = {
+                year: civilTime.year,
+                month: 1,
+                day: 1,
+                hour: 0,
+                minute: 0,
+                second: 0.0d,
+                utcOffset: {hours: 0, minutes: 0}
+            };
+            return time:utcFromCivil(startCivil);
+        }
+        MONTH => {
+            time:Civil startCivil = {
+                year: civilTime.year,
+                month: civilTime.month,
+                day: 1,
+                hour: 0,
+                minute: 0,
+                second: 0.0d,
+                utcOffset: {hours: 0, minutes: 0}
+            };
+            return time:utcFromCivil(startCivil);
+        }
+        DAY => {
+            time:Civil startCivil = {
+                year: civilTime.year,
+                month: civilTime.month,
+                day: civilTime.day,
+                hour: 0,
+                minute: 0,
+                second: 0.0d,
+                utcOffset: {hours: 0, minutes: 0}
+            };
+            return time:utcFromCivil(startCivil);
+        }
+        HOUR => {
+            time:Civil startCivil = {
+                year: civilTime.year,
+                month: civilTime.month,
+                day: civilTime.day,
+                hour: civilTime.hour,
+                minute: 0,
+                second: 0.0d,
+                utcOffset: {hours: 0, minutes: 0}
+            };
+            return time:utcFromCivil(startCivil);
+        }
+        MINUTE => {
+            time:Civil startCivil = {
+                year: civilTime.year,
+                month: civilTime.month,
+                day: civilTime.day,
+                hour: civilTime.hour,
+                minute: civilTime.minute,
+                second: 0.0d,
+                utcOffset: {hours: 0, minutes: 0}
+            };
+            return time:utcFromCivil(startCivil);
+        }
+        SECOND => {
+            decimal currentSecond = civilTime.second ?: 0.0d;
+            decimal fractionalPart = currentSecond % 1.0d;
+            
+            // If already at whole second (fractional part is 0), return as is
+            if (fractionalPart == 0.0d) {
+                return utcTime;
+            }
+            
+            // Calculate seconds to subtract to get to start of second
+            decimal secondsToSubtract = fractionalPart;
+            return time:utcAddSeconds(utcTime, -secondsToSubtract);
+        }
+        _ => {
+            return utcTime; // Default fallback
+        }
+    }
+}
+
+# Gets the exact end of a given time unit
+#
+# + utcTime - The UTC time
+# + unit - The time unit (year, month, day, hour, minute, second)
+# + return - The time at the end of the unit
+public isolated function endOf(time:Utc utcTime, Unit unit) returns time:Utc|time:Error {
+    time:Civil civilTime = time:utcToCivil(utcTime);
+    
+    match unit {
+        YEAR => {
+            time:Civil endCivil = {
+                year: civilTime.year,
+                month: 12,
+                day: 31,
+                hour: 23,
+                minute: 59,
+                second: 59.999d,
+                utcOffset: {hours: 0, minutes: 0}
+            };
+            return time:utcFromCivil(endCivil);
+        }
+        MONTH => {
+            int lastDay = daysInMonth(utcTime);
+            time:Civil endCivil = {
+                year: civilTime.year,
+                month: civilTime.month,
+                day: lastDay,
+                hour: 23,
+                minute: 59,
+                second: 59.999d,
+                utcOffset: {hours: 0, minutes: 0}
+            };
+            return time:utcFromCivil(endCivil);
+        }
+        DAY => {
+            time:Civil endCivil = {
+                year: civilTime.year,
+                month: civilTime.month,
+                day: civilTime.day,
+                hour: 23,
+                minute: 59,
+                second: 59.999d,
+                utcOffset: {hours: 0, minutes: 0}
+            };
+            return time:utcFromCivil(endCivil);
+        }
+        HOUR => {
+            time:Civil endCivil = {
+                year: civilTime.year,
+                month: civilTime.month,
+                day: civilTime.day,
+                hour: civilTime.hour,
+                minute: 59,
+                second: 59.999d,
+                utcOffset: {hours: 0, minutes: 0}
+            };
+            return time:utcFromCivil(endCivil);
+        }
+        MINUTE => {
+            time:Civil endCivil = {
+                year: civilTime.year,
+                month: civilTime.month,
+                day: civilTime.day,
+                hour: civilTime.hour,
+                minute: civilTime.minute,
+                second: 59.999d,
+                utcOffset: {hours: 0, minutes: 0}
+            };
+            return time:utcFromCivil(endCivil);
+        }
+        SECOND => {
+            decimal currentSecond = civilTime.second ?: 0.0d;
+            decimal fractionalPart = currentSecond % 1.0d;
+            
+            // If already at .999, return as is
+            if (fractionalPart >= 0.999d) {
+                return utcTime;
+            }
+            
+            // Calculate seconds to add to get to end of second
+            decimal secondsToAdd = 0.999d - fractionalPart;
+            return time:utcAddSeconds(utcTime, secondsToAdd);
+        }
+        _ => {
+            return utcTime; // Default fallback
+        }
+    }
+}
