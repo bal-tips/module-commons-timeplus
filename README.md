@@ -1,9 +1,13 @@
 # TimePlus - Comprehensive Time Utilities for Ballerina
 
-[![Ballerina](https://img.shields.io/badge/ballerina-2201.12.7-blue)](https://ballerina.io/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 TimePlus is a comprehensive time utility module for Ballerina that extends the standard `ballerina/time` module with powerful, real-world functionality. Built upon the solid foundation of `time:Utc`, this module provides an intuitive and extensive API for modern application development.
+
+---
+
+**TimePlus** - Making time simple, powerful, and intuitive in Ballerina! ⏰✨
+
+---
 
 ## 🚀 Key Features
 
@@ -50,9 +54,9 @@ public function main() returns error? {
 }
 ```
 
-## 📚 Core Modules
+## 📚 Core Functionalities
 
-### 🔧 Core Functions (`functions_core.bal`)
+### 🔧 Core Functions
 String conversion and timezone operations:
 ```ballerina
 // Format time to string
@@ -67,7 +71,7 @@ time:Civil nyTime = check timeplus:toZone(now, "America/New_York");
 time:Utc backToUtc = check timeplus:fromZone(nyTime, "America/New_York");
 ```
 
-### 🔄 Cross-Platform Integration (`functions_interop.bal`)
+### 🔄 Cross-Platform Integration
 Seamless integration with other ecosystems:
 ```ballerina
 // JavaScript (milliseconds since epoch)
@@ -83,7 +87,7 @@ int unixTimestamp = timeplus:toUnixTimestamp(now);
 time:Utc fromUnix = timeplus:fromUnixTimestamp(1694789825);
 ```
 
-### ➕ Time Arithmetic (`functions_calculation.bal`)
+### ➕ Time Arithmetic
 Powerful duration-based calculations:
 ```ballerina
 // Duration type for complex operations
@@ -101,7 +105,7 @@ time:Utc past = timeplus:subtract(now, duration);
 timeplus:Duration diff = timeplus:difference(future, past);
 ```
 
-### 📊 Component Extraction (`functions_getters.bal`)
+### 📊 Component Extraction
 Extract specific components from time values:
 ```ballerina
 time:Utc someTime = check timeplus:create(2023, 9, 15, 14, 30, 25.123d);
@@ -113,7 +117,7 @@ int dayOfYear = timeplus:getDayOfYear(someTime); // 258
 int weekNumber = timeplus:getWeekOfYear(someTime); // 37
 ```
 
-### ⚖️ Comparisons & Queries (`functions_comparison.bal`)
+### ⚖️ Comparisons & Queries
 Compare and query time properties:
 ```ballerina
 time:Utc time1 = check timeplus:create(2023, 9, 15);
@@ -127,7 +131,7 @@ boolean leapYear = timeplus:isLeapYear(time1);       // false
 int daysInSept = timeplus:daysInMonth(time1);        // 30
 ```
 
-### 📍 Time Unit Operations (`functions_units.bal`)
+### 📍 Time Unit Operations
 Get start and end of time periods:
 ```ballerina
 time:Utc someTime = check timeplus:create(2023, 9, 15, 14, 30, 25.123d);
@@ -138,7 +142,7 @@ time:Utc startOfDay = timeplus:startOfDay(someTime);     // 2023-09-15T00:00:00.
 time:Utc startOfHour = timeplus:startOfHour(someTime);   // 2023-09-15T14:00:00.000Z
 ```
 
-### 🏢 Business Logic (`functions_business.bal`)
+### 🏢 Business Logic
 Business-focused time operations:
 ```ballerina
 time:Utc friday = check timeplus:create(2023, 9, 15);   // Friday
@@ -153,7 +157,7 @@ time:Utc prevBusinessDay = timeplus:previousWeekday(friday); // Thursday
 time:Utc futureBusinessDate = timeplus:addBusinessDays(friday, 5);
 ```
 
-### ⏱️ Relative Operations (`functions_relative.bal`)
+### ⏱️ Relative Operations
 Simple, convenient time arithmetic:
 ```ballerina
 time:Utc now = timeplus:now();
@@ -170,7 +174,7 @@ time:Utc lastHour = timeplus:subtractHours(now, 1);
 time:Utc thirtySecondsAgo = timeplus:subtractSeconds(now, 30.0d);
 ```
 
-### 🛠️ Utility Functions (`functions_utility.bal`)
+### 🛠️ Utility Functions
 High-level convenience functions:
 ```ballerina
 // Current time functions
@@ -260,4 +264,3 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ---
 
-**TimePlus** - Making time simple, powerful, and intuitive in Ballerina! ⏰✨

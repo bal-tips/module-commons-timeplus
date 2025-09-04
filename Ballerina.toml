@@ -1,5 +1,13 @@
 [package]
 org = "commons"
 name = "timeplus"
-version = "0.1.0"
+version = "0.1.1"
 distribution = "2201.12.7"
+authors = ["Hasitha Aravinda"]
+keywords = ["time", "datetime", "timezones", "time-formatting", "time-parsing"]
+repository = "https://github.com/bal-tips/module-commons-timeplus"
+icon = "icon.png"
+license = ["MIT"]
+
+[platform.java21]
+graalvmCompatible = true
