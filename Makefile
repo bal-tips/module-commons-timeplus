@@ -31,6 +31,13 @@ pack:
 	bal pack
 
 release:
+	@echo "$(GREEN)Checking for uncommitted Ballerina files...$(NC)"
+	@if git status --porcelain | grep '\.bal$$'; then \
+		echo "$(RED)Error: There are uncommitted .bal files. Please commit or stash them before release.$(NC)"; \
+		echo "$(YELLOW)Uncommitted .bal files:$(NC)"; \
+		git status --porcelain | grep '\.bal$$'; \
+		exit 1; \
+	fi
 	@echo "$(YELLOW)Current version: $(CURRENT_VERSION)$(NC)"
 	@echo "$(YELLOW)Please enter the new version (semver format, e.g., 1.0.0):$(NC)"
 	@read NEW_VERSION; \
@@ -66,7 +73,24 @@ release:
 	git add Ballerina.toml Dependencies.toml; \
 	git commit -m "Release version $$NEW_VERSION"; \
 	echo "$(GREEN)Step 5: Creating and pushing tag v$$NEW_VERSION...$(NC)"; \
-	git tag "v$$NEW_VERSION"; \
+	if git tag -l | grep -q "^v$$NEW_VERSION$$"; then \
+		echo "$(YELLOW)Tag v$$NEW_VERSION already exists.$(NC)"; \
+		echo "$(YELLOW)Do you want to delete and recreate it? (y/N):$(NC)"; \
+		read RECREATE_TAG; \
+		if [ "$$RECREATE_TAG" = "y" ] || [ "$$RECREATE_TAG" = "Y" ]; then \
+			echo "$(GREEN)Deleting existing tag v$$NEW_VERSION...$(NC)"; \
+			git tag -d "v$$NEW_VERSION"; \
+			git push origin --delete "v$$NEW_VERSION" 2>/dev/null || true; \
+			echo "$(GREEN)Creating new tag v$$NEW_VERSION...$(NC)"; \
+			git tag "v$$NEW_VERSION"; \
+		else \
+			echo "$(RED)Aborting release due to existing tag.$(NC)"; \
+			git reset --hard HEAD~1; \
+			exit 1; \
+		fi; \
+	else \
+		git tag "v$$NEW_VERSION"; \
+	fi; \
 	git push origin main; \
 	git push origin "v$$NEW_VERSION"; \
 	echo "$(GREEN)Release process completed successfully!$(NC)"; \
