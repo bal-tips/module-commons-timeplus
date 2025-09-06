@@ -7,7 +7,7 @@ authors = ["Hasitha Aravinda"]
 keywords = ["time", "datetime", "timezones", "time-formatting", "time-parsing"]
 repository = "https://github.com/bal-tips/module-commons-timeplus"
 icon = "icon.png"
-license = ["MIT"]
+license = ["Apache-2.0"]
 
 [platform.java21]
 graalvmCompatible = true

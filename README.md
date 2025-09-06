@@ -250,7 +250,18 @@ bal test
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](./LICENSE) file for details.
+
+## 📝 About Module
+
+### Vision
+To provide the most comprehensive, intuitive, and powerful time manipulation utilities for the Ballerina ecosystem, making time operations simple and reliable for modern application development.
+
+### Purpose
+TimePlus extends the standard ballerina/time module with real-world functionality needed for business applications, cross-platform integration, and complex time calculations. This module bridges the gap between basic time operations and production-ready time handling.
+
+### Attribution
+Created and maintained by [Hasitha Aravinda](https://github.com/hasithaa)
 
 ## 🔗 Related Projects
 
@@ -263,4 +274,6 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 - **Issues**: Report bugs and request features via GitHub Issues
 
 ---
+
+**Note:** Ballerina is a registered trademark of WSO2 LLC.
 
