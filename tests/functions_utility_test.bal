@@ -47,43 +47,6 @@ function testNow() returns error? {
 }
 
 @test:Config {}
-function testNowInZone() returns error? {
-    // Test getting current time in UTC
-    time:Civil utcTime = check nowInZone("UTC");
-    
-    // Test getting current time in GMT (should be same as UTC)
-    time:Civil gmtTime = check nowInZone("GMT");
-    
-    // Test getting current time in New York timezone
-    time:Civil nyTime = check nowInZone("America/New_York");
-    
-    // Test that times are reasonable
-    test:assertTrue(utcTime.year >= 2020 && utcTime.year <= 2030, 
-        "UTC time year should be reasonable");
-    test:assertTrue(gmtTime.year >= 2020 && gmtTime.year <= 2030, 
-        "GMT time year should be reasonable");
-    test:assertTrue(nyTime.year >= 2020 && nyTime.year <= 2030, 
-        "NY time year should be reasonable");
-    
-    // Test that times have valid components
-    test:assertTrue(utcTime.month >= 1 && utcTime.month <= 12, 
-        "UTC time month should be valid");
-    test:assertTrue(utcTime.day >= 1 && utcTime.day <= 31, 
-        "UTC time day should be valid");
-    test:assertTrue(utcTime.hour >= 0 && utcTime.hour <= 23, 
-        "UTC time hour should be valid");
-    
-    // Test invalid timezone - currently falls back to UTC behavior
-    time:Civil|error invalidResult = nowInZone("Invalid/Timezone");
-    test:assertTrue(invalidResult is time:Civil, "Invalid timezone should fall back to UTC behavior");
-    
-    if invalidResult is time:Civil {
-        test:assertTrue(invalidResult.year >= 2020 && invalidResult.year <= 2030, 
-            "Invalid timezone fallback should still give reasonable year");
-    }
-}
-
-@test:Config {}
 function testToday() returns error? {
     // Test that today() returns midnight UTC
     time:Utc todayUtc = check today();
@@ -106,43 +69,6 @@ function testToday() returns error? {
     time:Utc today1 = check today();
     time:Utc today2 = check today();
     test:assertEquals(today1, today2, "Multiple calls to today() should return same value");
-}
-
-@test:Config {}
-function testTodayInZone() returns error? {
-    // Test today in UTC
-    time:Civil todayUtc = check todayInZone("UTC");
-    test:assertEquals(todayUtc.hour, 0, "Today UTC should be at hour 0");
-    test:assertEquals(todayUtc.minute, 0, "Today UTC should be at minute 0");
-    test:assertEquals(todayUtc.second, 0.0d, "Today UTC should be at second 0");
-    
-    // Test today in New York timezone
-    time:Civil todayNy = check todayInZone("America/New_York");
-    test:assertEquals(todayNy.hour, 0, "Today NY should be at hour 0");
-    test:assertEquals(todayNy.minute, 0, "Today NY should be at minute 0");
-    test:assertEquals(todayNy.second, 0.0d, "Today NY should be at second 0");
-    
-    // Test that dates are reasonable
-    test:assertTrue(todayUtc.year >= 2020 && todayUtc.year <= 2030, 
-        "Today UTC year should be reasonable");
-    test:assertTrue(todayNy.year >= 2020 && todayNy.year <= 2030, 
-        "Today NY year should be reasonable");
-    
-    // Test that dates have valid components
-    test:assertTrue(todayUtc.month >= 1 && todayUtc.month <= 12, 
-        "Today UTC month should be valid");
-    test:assertTrue(todayUtc.day >= 1 && todayUtc.day <= 31, 
-        "Today UTC day should be valid");
-    
-    // Test invalid timezone - currently falls back to UTC behavior
-    time:Civil|error invalidResult = todayInZone("Invalid/Timezone");
-    test:assertTrue(invalidResult is time:Civil, "Invalid timezone should fall back to UTC behavior");
-    
-    if invalidResult is time:Civil {
-        test:assertEquals(invalidResult.hour, 0, "Invalid timezone fallback should be at midnight");
-        test:assertEquals(invalidResult.minute, 0, "Invalid timezone fallback should be at midnight");
-        test:assertEquals(invalidResult.second, 0.0d, "Invalid timezone fallback should be at midnight");
-    }
 }
 
 @test:Config {}
@@ -194,42 +120,6 @@ function testCreate() returns error? {
     
     time:Utc|error invalidMinute = create(2023, 9, 15, 14, 60);
     test:assertTrue(invalidMinute is error, "Invalid minute should return error");
-}
-
-@test:Config {}
-function testCreateInZone() returns error? {
-    // Test creating time in UTC timezone
-    time:Utc resultUtc = check createInZone(2023, 9, 15, "UTC", 14, 30, 25.123d);
-    time:Utc expectedUtc = check time:utcFromString("2023-09-15T14:30:25.123Z");
-    test:assertEquals(resultUtc, expectedUtc, "CreateInZone with UTC should work correctly");
-    
-    // Test creating time with defaults in timezone
-    time:Utc resultDefaults = check createInZone(2023, 9, 15, "UTC");
-    time:Utc expectedDefaults = check time:utcFromString("2023-09-15T00:00:00.000Z");
-    test:assertEquals(resultDefaults, expectedDefaults, "CreateInZone with defaults should work correctly");
-    
-    // Test creating time in GMT (should be same as UTC)
-    time:Utc resultGmt = check createInZone(2023, 9, 15, "GMT", 12, 0, 0.0d);
-    time:Utc expectedGmt = check time:utcFromString("2023-09-15T12:00:00.000Z");
-    test:assertEquals(resultGmt, expectedGmt, "CreateInZone with GMT should work correctly");
-    
-    // Test with partial parameters
-    time:Utc resultPartial = check createInZone(2024, 2, 29, "UTC", 12);
-    time:Utc expectedPartial = check time:utcFromString("2024-02-29T12:00:00.000Z");
-    test:assertEquals(resultPartial, expectedPartial, "CreateInZone with partial parameters should work correctly");
-    
-    // Test invalid timezone - currently falls back to UTC behavior
-    time:Utc|error invalidZone = createInZone(2023, 9, 15, "Invalid/Timezone");
-    test:assertTrue(invalidZone is time:Utc, "Invalid timezone should fall back to UTC behavior");
-    
-    if invalidZone is time:Utc {
-        time:Utc expectedFallback = check time:utcFromString("2023-09-15T00:00:00.000Z");
-        test:assertEquals(invalidZone, expectedFallback, "Invalid timezone should create UTC time");
-    }
-    
-    // Test invalid date parameters
-    time:Utc|error invalidDate = createInZone(2023, 13, 15, "UTC");
-    test:assertTrue(invalidDate is error, "Invalid date should return error");
 }
 
 @test:Config {}

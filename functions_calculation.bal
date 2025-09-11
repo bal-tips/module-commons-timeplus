@@ -16,6 +16,10 @@ import ballerina/time;
 
 # Adds a duration to a UTC time
 #
+# Note: Month arithmetic follows calendar conventions. When adding months results
+# in an invalid date, the day is clamped to the last valid day of the target month.
+# Example: Jan 31 + 1 month = Feb 28 (since February has no 31st day).
+#
 # + utcTime - The UTC time to add to
 # + duration - The duration to add
 # + return - The resulting UTC time
@@ -25,32 +29,35 @@ public isolated function add(time:Utc utcTime, Duration duration) returns time:U
     // Add each component if present
     int year = civilTime.year + (duration.years ?: 0);
     int month = civilTime.month + (duration.months ?: 0);
-    int day = civilTime.day + (duration.days ?: 0);
+    int day = civilTime.day; // Don't add days yet
     int hour = civilTime.hour + (duration.hours ?: 0);
     int minute = civilTime.minute + (duration.minutes ?: 0);
     decimal seconds = duration.seconds ?: 0.0;
     decimal second = (civilTime.second ?: 0.0) + seconds;
     
-    // Handle month overflow
+    // Handle month overflow first
     while month > 12 {
         year += 1;
         month -= 12;
     }
+    while month < 1 {
+        year -= 1;
+        month += 12;
+    }
     
-    // Handle day overflow for months with different day counts
-    // Get the maximum days in the target month
+    // After month/year adjustments, clamp the day to valid range for the target month
     int[] daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    
-    // Check if target year is leap year for February
     boolean isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     if month == 2 && isLeap {
         daysInMonths[1] = 29; // February has 29 days in leap year
     }
-    
     int maxDaysInMonth = daysInMonths[month - 1];
     if day > maxDaysInMonth {
         day = maxDaysInMonth; // Clamp to last day of month
     }
+    
+    // Now add the days
+    day += (duration.days ?: 0);
     
     // Handle second overflow
     while second >= 60.0d {
@@ -70,6 +77,49 @@ public isolated function add(time:Utc utcTime, Duration duration) returns time:U
         day += 1;
     }
     
+    // Now handle day overflow after all time components are calculated
+    while day > 1 {
+        int[] currentDaysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        
+        // Check if current year is leap year for February
+        boolean currentIsLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+        if month == 2 && currentIsLeap {
+            currentDaysInMonths[1] = 29; // February has 29 days in leap year
+        }
+        
+        int currentMaxDaysInMonth = currentDaysInMonths[month - 1];
+        if day <= currentMaxDaysInMonth {
+            break; // Day is valid for this month
+        }
+        
+        // Day overflow - move to next month
+        day -= currentMaxDaysInMonth;
+        month += 1;
+        if month > 12 {
+            month = 1;
+            year += 1;
+        }
+    }
+    
+    // Handle day underflow
+    while day < 1 {
+        // Move to previous month
+        month -= 1;
+        if month < 1 {
+            month = 12;
+            year -= 1;
+        }
+        
+        // Recalculate max days for the new month
+        int[] prevDaysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        boolean prevIsLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+        if month == 2 && prevIsLeap {
+            prevDaysInMonths[1] = 29;
+        }
+        
+        day += prevDaysInMonths[month - 1];
+    }
+    
     // Create new civil time and convert back to UTC
     time:Civil newCivil = {
         year: year,
@@ -86,6 +136,10 @@ public isolated function add(time:Utc utcTime, Duration duration) returns time:U
 
 # Subtracts a duration from a UTC time
 #
+# Note: Month arithmetic follows calendar conventions. When subtracting months results
+# in an invalid date, the day is clamped to the last valid day of the target month.
+# This may result in asymmetrical behavior with add().
+#
 # + utcTime - The UTC time to subtract from
 # + duration - The duration to subtract
 # + return - The resulting UTC time
@@ -95,49 +149,95 @@ public isolated function subtract(time:Utc utcTime, Duration duration) returns t
     // Subtract each component if present
     int year = civilTime.year - (duration.years ?: 0);
     int month = civilTime.month - (duration.months ?: 0);
-    int day = civilTime.day - (duration.days ?: 0);
+    int day = civilTime.day; // Don't subtract days yet
     int hour = civilTime.hour - (duration.hours ?: 0);
     int minute = civilTime.minute - (duration.minutes ?: 0);
     decimal seconds = duration.seconds ?: 0.0;
     decimal second = (civilTime.second ?: 0.0) - seconds;
 
+    // Handle month underflow first
+    while month < 1 {
+        year -= 1;
+        month += 12;
+    }
+    while month > 12 {
+        year += 1;
+        month -= 12;
+    }
+    
+    // After month/year adjustments, clamp the day to valid range for the target month
+    int[] daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    boolean isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    if month == 2 && isLeap {
+        daysInMonths[1] = 29; // February has 29 days in leap year
+    }
+    int maxDaysInMonth = daysInMonths[month - 1];
+    if day > maxDaysInMonth {
+        day = maxDaysInMonth; // Clamp to last day of month
+    }
+    
+    // Now subtract the days
+    day -= (duration.days ?: 0);
+
     // Handle second underflow
-    if second < 0.0d {
+    while second < 0.0d {
         second += 60.0d;
         minute -= 1;
     }
 
     // Handle minute underflow
-    if minute < 0 {
+    while minute < 0 {
         minute += 60;
         hour -= 1;
     }
 
     // Handle hour underflow
-    if hour < 0 {
+    while hour < 0 {
         hour += 24;
         day -= 1;
     }
-
-    // Handle month underflow
-    while month < 1 {
-        year -= 1;
-        month += 12;
+    
+    // Now handle day overflow and underflow after all time components are calculated
+    while day > 1 {
+        int[] currentDaysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        
+        // Check if current year is leap year for February
+        boolean currentIsLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+        if month == 2 && currentIsLeap {
+            currentDaysInMonths[1] = 29; // February has 29 days in leap year
+        }
+        
+        int currentMaxDaysInMonth = currentDaysInMonths[month - 1];
+        if day <= currentMaxDaysInMonth {
+            break; // Day is valid for this month
+        }
+        
+        // Day overflow - move to next month
+        day -= currentMaxDaysInMonth;
+        month += 1;
+        if month > 12 {
+            month = 1;
+            year += 1;
+        }
     }
     
-    // Handle day overflow for months with different day counts
-    // Get the maximum days in the target month
-    int[] daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    
-    // Check if target year is leap year for February
-    boolean isLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-    if month == 2 && isLeap {
-        daysInMonths[1] = 29; // February has 29 days in leap year
-    }
-    
-    int maxDaysInMonth = daysInMonths[month - 1];
-    if day > maxDaysInMonth {
-        day = maxDaysInMonth; // Clamp to last day of month
+    // Handle day underflow
+    while day < 1 {
+        // Move to previous month
+        month -= 1;
+        if month < 1 {
+            month = 12;
+            year -= 1;
+        }
+        
+        // Recalculate max days for the new month
+        int[] prevDaysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        boolean prevIsLeap = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+        if month == 2 && prevIsLeap {
+            prevDaysInMonths[1] = 29;
+        }
+        
+        day += prevDaysInMonths[month - 1];
     }
     
     // Create new civil time and convert back to UTC

@@ -12,9 +12,9 @@ TimePlus is a comprehensive time utility module for Ballerina that extends the s
 ## 🚀 Key Features
 
 - **🌍 Cross-Platform Integration**: Native support for JavaScript, Python, and Unix timestamp formats
-- **🏢 Business Logic**: Weekend/weekday detection, business day calculations, timezone handling
+- **🏢 Business Logic**: Weekend/weekday detection, business day calculations
 - **📅 Comprehensive Operations**: Time arithmetic, component extraction, range validation
-- **🎯 Developer Experience**: Intuitive APIs with 60+ timezone constants and 20+ format constants
+- **🎯 Developer Experience**: Intuitive APIs with 20+ format constants
 - **⚡ Performance**: Built on efficient `time:Utc` foundation with extensive test coverage (113+ tests)
 - **🔄 Compatibility**: Drop-in enhancement to `ballerina/time` - existing code continues to work
 
@@ -57,7 +57,7 @@ public function main() returns error? {
 ## 📚 Core Functionalities
 
 ### 🔧 Core Functions
-String conversion and timezone operations:
+String conversion and parsing operations:
 ```ballerina
 // Format time to string
 string iso8601 = check timeplus:toString(now, timeplus:ISO_8601);
@@ -65,11 +65,9 @@ string customFormat = check timeplus:toString(now, timeplus:YYYY_MM_DD_HH_MM_SS)
 
 // Parse from string
 time:Utc parsed = check timeplus:fromString("2023-09-15", timeplus:YYYY_MM_DD);
-
-// Timezone conversion
-time:Civil nyTime = check timeplus:toZone(now, "America/New_York");
-time:Utc backToUtc = check timeplus:fromZone(nyTime, "America/New_York");
 ```
+
+> **⚠️ Format Support:** The `fromString` function currently supports ISO_8601, ISO_8601_Z, and YYYY_MM_DD formats. For other formats, it falls back to standard Ballerina parsing. Enhanced format support is planned for future releases.
 
 ### 🔄 Cross-Platform Integration
 Seamless integration with other ecosystems:
@@ -104,6 +102,12 @@ time:Utc future = timeplus:add(now, duration);
 time:Utc past = timeplus:subtract(now, duration);
 timeplus:Duration diff = timeplus:difference(future, past);
 ```
+
+> **📝 Month Arithmetic Behavior:**  
+> Month arithmetic follows standard calendar conventions. When adding/subtracting months results in an invalid date, the day is clamped to the last valid day of the target month.  
+> Example: `Jan 31 + 1 month = Feb 28` (since February has no 31st day).  
+> This means `Jan 31 + 1 month - 1 month = Jan 28` (not Jan 31).  
+> This behavior is mathematically consistent and prevents invalid dates.
 
 ### 📊 Component Extraction
 Extract specific components from time values:
@@ -155,7 +159,14 @@ time:Utc prevBusinessDay = timeplus:previousWeekday(friday); // Thursday
 
 // Add 5 business days (skips weekends)
 time:Utc futureBusinessDate = timeplus:addBusinessDays(friday, 5);
+
+// Duration formatting
+timeplus:Duration duration = {years: 1, months: 2, days: 5};
+string humanReadable = timeplus:humanizeDuration(duration); // "1 year, 2 months and 5 days"
+string timeFormat = timeplus:formatDuration({hours: 2, minutes: 30}, "hh:mm:ss"); // "02:30:00"
 ```
+
+> **⚠️ Duration Format Support:** The `formatDuration` function currently supports "hh:mm:ss" and "human" formats. Additional format options like "mm:ss", "h:mm", etc. are planned for future releases.
 
 ### ⏱️ Relative Operations
 Simple, convenient time arithmetic:
@@ -179,12 +190,10 @@ High-level convenience functions:
 ```ballerina
 // Current time functions
 time:Utc now = timeplus:now();
-time:Civil nowInNy = check timeplus:nowInZone("America/New_York");
 time:Utc today = check timeplus:today();
 
 // Creation functions
 time:Utc specificTime = check timeplus:create(2023, 9, 15, 14, 30);
-time:Utc timeInZone = check timeplus:createInZone(2023, 9, 15, "UTC", 14, 30);
 
 // Parsing functions
 time:Utc fromIso = check timeplus:parseIso8601("2023-09-15T14:30:25.123Z");
@@ -198,15 +207,6 @@ time:Utc latest = timeplus:max([time1, time2, time3]);
 ```
 
 ## 🌍 Constants & Formats
-
-### Timezone Constants
-```ballerina
-// Major timezone constants (60+ available)
-string ny = "America/New_York";      // or timeplus:NEW_YORK
-string london = "Europe/London";      // or timeplus:LONDON  
-string tokyo = "Asia/Tokyo";          // or timeplus:TOKYO
-string sydney = "Australia/Sydney";   // or timeplus:SYDNEY
-```
 
 ### Format Constants
 ```ballerina
@@ -231,10 +231,27 @@ TimePlus includes comprehensive testing with 113+ test cases covering:
 - ✅ **Business logic** - Weekend/weekday scenarios
 - ✅ **Format compatibility** - All supported time formats
 
+```
+
+## 📋 Important Behaviors & Limitations
+
+### Calendar Arithmetic
+- **Month arithmetic follows standard conventions**: Adding/subtracting months may result in different days when the target month has fewer days
+- **Example**: `Jan 31 + 1 month = Feb 28`, then `Feb 28 - 1 month = Jan 28` (not Jan 31)
+- **Rationale**: This prevents invalid dates and maintains mathematical consistency
+
+### Format Support
+- **String parsing**: `fromString()` supports ISO_8601, ISO_8601_Z, and YYYY_MM_DD formats
+- **Duration formatting**: `formatDuration()` supports "hh:mm:ss" and "human" formats
+- **Extensibility**: Additional format support planned for future releases
+
+### Precision Handling
+- **Second operations**: `startOf(SECOND)` and `endOf(SECOND)` handle fractional seconds correctly
+- **Timezone removed**: Limited timezone functions were removed to prevent confusion about incomplete support
+
 Run tests:
 ```bash
 bal test
-```
 
 ## 🤝 Contributing
 

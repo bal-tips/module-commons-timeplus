@@ -205,13 +205,7 @@ public isolated function toString(time:Utc utcTime, TimeFormat format, Locale lo
     
     // Format according to the specified format enum
     match format {
-        ISO_8601 => {
-            return string`${year}-${pad2(month)}-${pad2(day)}T${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}.${pad3(milliseconds)}Z`;
-        }
-        ISO_8601_Z => {
-            return string`${year}-${pad2(month)}-${pad2(day)}T${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}.${pad3(milliseconds)}Z`;
-        }
-        RFC_3339 => {
+        ISO_8601|ISO_8601_Z|RFC_3339 => {
             return string`${year}-${pad2(month)}-${pad2(day)}T${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}.${pad3(milliseconds)}Z`;
         }
         RFC_1123 => {
@@ -277,15 +271,6 @@ public isolated function toString(time:Utc utcTime, TimeFormat format, Locale lo
         SQL_DATETIME => {
             return string`${year}-${pad2(month)}-${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}.${pad3(milliseconds)}`;
         }
-        SQL_DATE => {
-            return string`${year}-${pad2(month)}-${pad2(day)}`;
-        }
-        SQL_TIME => {
-            return string`${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
-        }
-        LOG_TIMESTAMP => {
-            return string`${year}-${pad2(month)}-${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}.${pad3(milliseconds)}`;
-        }
         SYSLOG_TIMESTAMP => {
             string monthAbbr = getMonthAbbr(month, locale);
             return string`${monthAbbr} ${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
@@ -308,6 +293,9 @@ public isolated function toString(time:Utc utcTime, TimeFormat format, Locale lo
 
 # Parses a time string using the specified format
 #
+# Note: Currently supports ISO_8601, ISO_8601_Z, and YYYY_MM_DD formats.
+# For other formats, falls back to standard Ballerina parsing.
+# 
 # + timeStr - The time string to parse
 # + format - The format enum to use for parsing  
 # + return - The parsed UTC time or an error if parsing fails
@@ -328,32 +316,3 @@ public isolated function fromString(string timeStr, TimeFormat format) returns t
     }
 }
 
-# Converts UTC time to civil time in the specified timezone
-#
-# + utcTime - The UTC time to convert
-# + zoneId - The timezone identifier
-# + return - The civil time or an error if conversion fails  
-public isolated function toZone(time:Utc utcTime, string zoneId) returns time:Civil|error {
-    // Basic timezone conversion - can be extended with full timezone database
-    if zoneId == "UTC" || zoneId == "GMT" {
-        return time:utcToCivil(utcTime);
-    } else {
-        // For now, just return UTC time - full timezone implementation would require timezone database
-        return time:utcToCivil(utcTime);
-    }
-}
-
-# Converts civil time to UTC
-#
-# + civilTime - The civil time to convert
-# + zoneId - The timezone identifier
-# + return - The UTC time or an error if conversion fails
-public isolated function fromZone(time:Civil civilTime, string zoneId) returns time:Utc|error {
-    // Basic timezone conversion - can be extended with full timezone database
-    if zoneId == "UTC" || zoneId == "GMT" {
-        return time:utcFromCivil(civilTime);
-    } else {
-        // For now, just treat as UTC - full timezone implementation would require timezone database
-        return time:utcFromCivil(civilTime);
-    }
-}

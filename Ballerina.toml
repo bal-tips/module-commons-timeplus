@@ -1,8 +1,8 @@
 [package]
 org = "commons"
 name = "timeplus"
-version = "0.1.2"
-distribution = "2201.12.7"
+version = "0.2.0"
+distribution = "2201.12.9"
 authors = ["Hasitha Aravinda"]
 keywords = ["time", "datetime", "timezones", "time-formatting", "time-parsing"]
 repository = "https://github.com/bal-tips/module-commons-timeplus"

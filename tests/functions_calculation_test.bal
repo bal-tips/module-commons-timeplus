@@ -199,23 +199,137 @@ function testAddSubtractSymmetry() returns error? {
 }
 
 @test:Config {}
-function testEdgeCases() returns error? {
-    // Test adding zero duration
-    time:Utc baseTime = check time:utcFromString("2023-09-15T12:00:00Z");
-    Duration zeroDuration = {};
-    time:Utc result = check add(baseTime, zeroDuration);
-    test:assertEquals(result, baseTime, "Adding zero duration should return same time");
+function testAdvancedEdgeCases() returns error? {
+    // Test multiple month overflows (adding 25 months should be 2 years and 1 month)
+    time:Utc baseTime = check time:utcFromString("2023-01-15T12:00:00Z");
+    Duration twentyFiveMonths = {months: 25};
+    time:Utc result = check add(baseTime, twentyFiveMonths);
+    time:Utc expected = check time:utcFromString("2025-02-15T12:00:00Z");
+    test:assertEquals(result, expected, "Adding 25 months should correctly overflow to 2 years and 1 month");
+    
+    // Test negative durations (should be treated as subtraction)
+    Duration negativeDuration = {days: -5, hours: -3};
+    result = check add(baseTime, negativeDuration);
+    expected = check time:utcFromString("2023-01-10T09:00:00Z");
+    test:assertEquals(result, expected, "Adding negative duration should work like subtraction");
+    
+    // Test complex day underflow in subtraction
+    time:Utc jan3 = check time:utcFromString("2023-01-03T12:00:00Z");
+    Duration tenDays = {days: 10};
+    result = check subtract(jan3, tenDays);
+    expected = check time:utcFromString("2022-12-24T12:00:00Z");
+    test:assertEquals(result, expected, "Subtracting more days than available should correctly underflow to previous month");
+    
+    // Test leap year edge case with day underflow
+    time:Utc mar1LeapYear = check time:utcFromString("2024-03-01T12:00:00Z");
+    Duration threeDays = {days: 3};
+    result = check subtract(mar1LeapYear, threeDays);
+    expected = check time:utcFromString("2024-02-27T12:00:00Z");
+    test:assertEquals(result, expected, "March 1 - 3 days in leap year should account for February having 29 days");
+    
+    // Test century boundary leap year calculation
+    time:Utc year1900 = check time:utcFromString("1900-02-28T12:00:00Z");
+    Duration oneDay = {days: 1};
+    result = check add(year1900, oneDay);
+    expected = check time:utcFromString("1900-03-01T12:00:00Z");
+    test:assertEquals(result, expected, "1900 was not a leap year (century non-leap), so Feb 28 + 1 day = Mar 1");
+    
+    // Test year 2000 leap year calculation
+    time:Utc year2000 = check time:utcFromString("2000-02-28T12:00:00Z");
+    result = check add(year2000, oneDay);
+    expected = check time:utcFromString("2000-02-29T12:00:00Z");
+    test:assertEquals(result, expected, "2000 was a leap year (400-year rule), so Feb 28 + 1 day = Feb 29");
+}
 
-    // Test subtracting zero duration
-    result = check subtract(baseTime, zeroDuration);
-    test:assertEquals(result, baseTime, "Subtracting zero duration should return same time");
+@test:Config {}
+function testPrecisionAndOverflow() returns error? {
+    // Test second overflow with fractional seconds
+    time:Utc baseTime = check time:utcFromString("2023-09-15T23:59:59.500Z");
+    Duration halfSecond = {seconds: 0.5};
+    time:Utc result = check add(baseTime, halfSecond);
+    time:Utc expected = check time:utcFromString("2023-09-16T00:00:00.000Z");
+    test:assertEquals(result, expected, "Adding 0.5 seconds to 23:59:59.500 should roll over to next day");
+    
+    // Test minute overflow
+    time:Utc beforeMidnight = check time:utcFromString("2023-09-15T23:59:30Z");
+    Duration fortySeconds = {seconds: 40.0};
+    result = check add(beforeMidnight, fortySeconds);
+    expected = check time:utcFromString("2023-09-16T00:00:10.000Z");
+    test:assertEquals(result, expected, "Adding 40 seconds to 23:59:30 should roll over to next day");
+    
+    // Test hour overflow
+    time:Utc lateEvening = check time:utcFromString("2023-09-15T23:30:00Z");
+    Duration twoHours = {hours: 2};
+    result = check add(lateEvening, twoHours);
+    expected = check time:utcFromString("2023-09-16T01:30:00Z");
+    test:assertEquals(result, expected, "Adding 2 hours to 23:30 should roll over to next day");
+    
+    // Test underflow in seconds
+    time:Utc earlyMorning = check time:utcFromString("2023-09-15T00:00:15.500Z");
+    Duration twentySeconds = {seconds: 20.0};
+    result = check subtract(earlyMorning, twentySeconds);
+    expected = check time:utcFromString("2023-09-14T23:59:55.500Z");
+    test:assertEquals(result, expected, "Subtracting 20 seconds from 00:00:15.500 should underflow to previous day");
+}
 
-    // Test simple month addition that doesn't cause day overflow
-    time:Utc midMonth = check time:utcFromString("2023-03-15T12:00:00Z");
+@test:Config {}
+function testDifferenceEdgeCases() returns error? {
+    // Test difference across leap year boundary
+    time:Utc feb28_2023 = check time:utcFromString("2023-02-28T12:00:00Z");
+    time:Utc feb28_2024 = check time:utcFromString("2024-02-28T12:00:00Z");
+    Duration diff = difference(feb28_2023, feb28_2024);
+    test:assertEquals(diff.days ?: 0, 365, "Difference across non-leap to leap year should be 365 days");
+    
+    time:Utc feb28_2024_start = check time:utcFromString("2024-02-28T12:00:00Z");
+    time:Utc feb28_2025 = check time:utcFromString("2025-02-28T12:00:00Z");
+    diff = difference(feb28_2024_start, feb28_2025);
+    test:assertEquals(diff.days ?: 0, 366, "Difference across leap to non-leap year should be 366 days");
+    
+    // Test difference with fractional seconds
+    time:Utc time1 = check time:utcFromString("2023-09-15T12:00:00.000Z");
+    time:Utc time2 = check time:utcFromString("2023-09-15T12:00:00.750Z");
+    diff = difference(time1, time2);
+    test:assertEquals(diff.seconds ?: 0.0d, 0.75d, "Difference should handle fractional seconds correctly");
+    
+    // Test difference in reverse (negative)
+    diff = difference(time2, time1);
+    test:assertEquals(diff.seconds ?: 0.0d, -0.75d, "Reverse difference should be negative");
+}
+
+@test:Config {}
+function testMonthBoundaryCalculations() returns error? {
+    // Test all month-end dates for proper clamping
+    string[] monthEndDates = [
+        "2023-01-31", // Jan 31
+        "2023-03-31", // Mar 31
+        "2023-05-31", // May 31
+        "2023-07-31", // Jul 31
+        "2023-08-31", // Aug 31
+        "2023-10-31", // Oct 31
+        "2023-12-31"  // Dec 31
+    ];
+    
+    string[] expectedAfterOneMonth = [
+        "2023-02-28", // Jan 31 + 1 month = Feb 28
+        "2023-04-30", // Mar 31 + 1 month = Apr 30
+        "2023-06-30", // May 31 + 1 month = Jun 30
+        "2023-08-31", // Jul 31 + 1 month = Aug 31
+        "2023-09-30", // Aug 31 + 1 month = Sep 30
+        "2023-11-30", // Oct 31 + 1 month = Nov 30
+        "2024-01-31"  // Dec 31 + 1 month = Jan 31
+    ];
+    
     Duration oneMonth = {months: 1};
-    result = check add(midMonth, oneMonth);
-    time:Utc expected = check time:utcFromString("2023-04-15T12:00:00Z");
-    test:assertEquals(result, expected, "Adding month to mid-month date should work correctly");
+    
+    int i = 0;
+    while i < monthEndDates.length() {
+        time:Utc inputTime = check time:utcFromString(monthEndDates[i] + "T12:00:00Z");
+        time:Utc result = check add(inputTime, oneMonth);
+        string resultDate = toString(result, YYYY_MM_DD);
+        test:assertEquals(resultDate, expectedAfterOneMonth[i], 
+            string`${monthEndDates[i]} + 1 month should become ${expectedAfterOneMonth[i]}`);
+        i += 1;
+    }
 }
 
 @test:Config {}
@@ -269,4 +383,11 @@ function testLeapYearAndMonthEndCases() returns error? {
     result = check add(feb28NonLeap, oneYear);
     expected = check time:utcFromString("2024-02-28T12:00:00Z");
     test:assertEquals(result, expected, "Feb 28 non-leap year + 1 year should remain Feb 28");
+    
+    // Test day underflow edge case - subtracting more days than available in month
+    time:Utc mar1 = check time:utcFromString("2023-03-01T12:00:00Z");
+    Duration fiveDays = {days: 5};
+    result = check subtract(mar1, fiveDays);
+    expected = check time:utcFromString("2023-02-24T12:00:00Z");
+    test:assertEquals(result, expected, "Mar 1 - 5 days should become Feb 24");
 }

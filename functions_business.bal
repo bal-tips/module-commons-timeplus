@@ -148,6 +148,9 @@ public isolated function humanizeDuration(Duration duration, Locale locale = EN)
 
 # Formats duration according to a custom format string
 #
+# Note: Currently supports "hh:mm:ss" and "human" formats.
+# Additional format options are planned for future releases.
+#
 # + duration - The duration to format
 # + format - The format string (basic implementation)
 # + return - Formatted duration string

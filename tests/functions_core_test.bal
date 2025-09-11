@@ -273,22 +273,16 @@ function testFromString() returns error? {
 }
 
 @test:Config {}
-function testToZoneAndFromZone() returns error? {
-    time:Utc utcTime = check time:utcFromString("2023-09-15T14:30:25.123Z");
+function testTimeFormatEnumValues() returns error? {
+    // Test that the TimeFormat enum values are proper format strings, not placeholders
+    test:assertNotEquals(SQL_DATE, "sql-date-format", "SQL_DATE should not be a placeholder");
+    test:assertNotEquals(SQL_TIME, "sql-time-format", "SQL_TIME should not be a placeholder");
+    test:assertNotEquals(LOG_TIMESTAMP, "log-timestamp-format", "LOG_TIMESTAMP should not be a placeholder");
     
-    // Test UTC/GMT timezone conversion (should be identity)
-    time:Civil civilUtc = check toZone(utcTime, "UTC");
-    time:Utc backToUtc = check fromZone(civilUtc, "UTC");
-    test:assertEquals(backToUtc, utcTime, "UTC timezone conversion should be identity");
-    
-    civilUtc = check toZone(utcTime, "GMT");
-    backToUtc = check fromZone(civilUtc, "GMT");
-    test:assertEquals(backToUtc, utcTime, "GMT timezone conversion should be identity");
-    
-    // Test unsupported timezone (should fall back to UTC behavior)
-    time:Civil civilOther = check toZone(utcTime, "America/New_York");
-    time:Utc backFromOther = check fromZone(civilOther, "America/New_York");
-    test:assertEquals(backFromOther, utcTime, "Unsupported timezone should fall back to UTC behavior");
+    // Test that the enum values are meaningful format patterns
+    test:assertEquals(SQL_DATE, "yyyy-MM-dd", "SQL_DATE should be the correct format pattern");
+    test:assertEquals(SQL_TIME, "HH:mm:ss", "SQL_TIME should be the correct format pattern");
+    test:assertEquals(LOG_TIMESTAMP, "yyyy-MM-dd HH:mm:ss.SSS", "LOG_TIMESTAMP should be the correct format pattern");
 }
 
 @test:Config {}

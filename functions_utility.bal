@@ -21,14 +21,7 @@ public isolated function now() returns time:Utc {
     return time:utcNow();
 }
 
-# Returns the current time in the specified timezone
-#
-# + zoneId - The timezone identifier
-# + return - The current time in the specified timezone or an error
-public isolated function nowInZone(string zoneId) returns time:Civil|error {
-    time:Utc currentUtc = time:utcNow();
-    return toZone(currentUtc, zoneId);
-}
+
 
 # Returns today's date at 00:00:00 UTC
 #
@@ -47,14 +40,7 @@ public isolated function today() returns time:Utc|time:Error {
     return time:utcFromCivil(todayCivil);
 }
 
-# Returns today's date at 00:00:00 in the specified timezone
-#
-# + zoneId - The timezone identifier
-# + return - Today's date at midnight in the specified timezone or an error
-public isolated function todayInZone(string zoneId) returns time:Civil|error {
-    time:Utc todayUtc = check today();
-    return toZone(todayUtc, zoneId);
-}
+
 
 # Creates a UTC time from individual components
 #
@@ -78,28 +64,7 @@ public isolated function create(int year, int month, int day, int hour = 0, int 
     return time:utcFromCivil(civilTime);
 }
 
-# Creates a UTC time from components in the specified timezone
-#
-# + year - The year
-# + month - The month (1-12)
-# + day - The day (1-31)
-# + zoneId - The timezone identifier
-# + hour - The hour (0-23), default is 0
-# + minute - The minute (0-59), default is 0
-# + second - The second (0-59.999...), default is 0.0
-# + return - The UTC time or an error if invalid
-public isolated function createInZone(int year, int month, int day, string zoneId, int hour = 0, int minute = 0, decimal second = 0.0d) returns time:Utc|error {
-    time:Civil civilTime = {
-        year: year,
-        month: month,
-        day: day,
-        hour: hour,
-        minute: minute,
-        second: second,
-        utcOffset: {hours: 0, minutes: 0}  // UTC timezone for now
-    };
-    return fromZone(civilTime, zoneId);
-}
+
 
 # Parses an ISO 8601 formatted string
 #

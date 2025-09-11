@@ -121,11 +121,11 @@ public enum TimeFormat {
     # SQL datetime
     SQL_DATETIME = "yyyy-MM-dd HH:mm:ss.SSS",
     # SQL date format
-    SQL_DATE = "sql-date-format",
+    SQL_DATE = "yyyy-MM-dd",
     # SQL time format
-    SQL_TIME = "sql-time-format",
+    SQL_TIME = "HH:mm:ss",
     # Log timestamp format
-    LOG_TIMESTAMP = "log-timestamp-format",
+    LOG_TIMESTAMP = "yyyy-MM-dd HH:mm:ss.SSS",
     # Syslog timestamp
     SYSLOG_TIMESTAMP = "MMM dd HH:mm:ss",
     # Apache log format
