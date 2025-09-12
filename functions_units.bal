@@ -19,7 +19,8 @@ import ballerina/time;
 # + utcTime - The UTC time
 # + unit - The time unit (year, month, day, hour, minute, second)
 # + return - The time at the start of the unit
-public isolated function startOf(time:Utc utcTime, Unit unit) returns time:Utc|time:Error {
+@display {label: "Get Start of Time Unit", iconPath: "icon.png"}
+public isolated function startOf(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Time Unit"} Unit unit) returns time:Utc|time:Error {
     time:Civil civilTime = time:utcToCivil(utcTime);
     
     match unit {
@@ -107,7 +108,8 @@ public isolated function startOf(time:Utc utcTime, Unit unit) returns time:Utc|t
 # + utcTime - The UTC time
 # + unit - The time unit (year, month, day, hour, minute, second)
 # + return - The time at the end of the unit
-public isolated function endOf(time:Utc utcTime, Unit unit) returns time:Utc|time:Error {
+@display {label: "Get End of Time Unit", iconPath: "icon.png"}
+public isolated function endOf(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Time Unit"} Unit unit) returns time:Utc|time:Error {
     time:Civil civilTime = time:utcToCivil(utcTime);
     
     match unit {

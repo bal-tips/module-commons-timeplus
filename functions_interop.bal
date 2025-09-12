@@ -18,7 +18,8 @@ import ballerina/time;
 #
 # + milliseconds - JavaScript timestamp in milliseconds
 # + return - The corresponding UTC time
-public isolated function fromJsTimestamp(decimal milliseconds) returns time:Utc|time:Error {
+@display {label: "Convert from JS Timestamp", iconPath: "icon.png"}
+public isolated function fromJsTimestamp(@display {label: "Milliseconds"} decimal milliseconds) returns time:Utc|time:Error {
     decimal seconds = milliseconds / 1000.0d;
     time:Civil epochCivil = {
         year: 1970, 
@@ -39,7 +40,8 @@ public isolated function fromJsTimestamp(decimal milliseconds) returns time:Utc|
 #
 # + utcTime - The UTC time to convert
 # + return - JavaScript timestamp in milliseconds
-public isolated function toJsTimestamp(time:Utc utcTime) returns decimal|time:Error {
+@display {label: "Convert to JS Timestamp", iconPath: "icon.png"}
+public isolated function toJsTimestamp(@display {label: "UTC Time"} time:Utc utcTime) returns decimal|time:Error {
     time:Civil epochCivil = {
         year: 1970, 
         month: 1, 
@@ -60,7 +62,8 @@ public isolated function toJsTimestamp(time:Utc utcTime) returns decimal|time:Er
 #
 # + seconds - Python timestamp in seconds
 # + return - The corresponding UTC time
-public isolated function fromPythonTimestamp(decimal seconds) returns time:Utc|time:Error {
+@display {label: "Convert from Python Timestamp", iconPath: "icon.png"}
+public isolated function fromPythonTimestamp(@display {label: "Seconds"} decimal seconds) returns time:Utc|time:Error {
     time:Civil epochCivil = {
         year: 1970, 
         month: 1, 
@@ -80,7 +83,8 @@ public isolated function fromPythonTimestamp(decimal seconds) returns time:Utc|t
 #
 # + utcTime - The UTC time to convert
 # + return - Python timestamp in seconds
-public isolated function toPythonTimestamp(time:Utc utcTime) returns decimal|time:Error {
+@display {label: "Convert to Python Timestamp", iconPath: "icon.png"}
+public isolated function toPythonTimestamp(@display {label: "UTC Time"} time:Utc utcTime) returns decimal|time:Error {
     time:Civil epochCivil = {
         year: 1970, 
         month: 1, 
@@ -99,7 +103,8 @@ public isolated function toPythonTimestamp(time:Utc utcTime) returns decimal|tim
 #
 # + seconds - Unix timestamp in seconds
 # + return - The corresponding UTC time
-public isolated function fromUnixTimestamp(int seconds) returns time:Utc|time:Error {
+@display {label: "Convert from Unix Timestamp", iconPath: "icon.png"}
+public isolated function fromUnixTimestamp(@display {label: "Seconds"} int seconds) returns time:Utc|time:Error {
     time:Civil epochCivil = {
         year: 1970, 
         month: 1, 
@@ -119,7 +124,8 @@ public isolated function fromUnixTimestamp(int seconds) returns time:Utc|time:Er
 #
 # + utcTime - The UTC time to convert
 # + return - Unix timestamp in seconds
-public isolated function toUnixTimestamp(time:Utc utcTime) returns int|time:Error {
+@display {label: "Convert to Unix Timestamp", iconPath: "icon.png"}
+public isolated function toUnixTimestamp(@display {label: "UTC Time"} time:Utc utcTime) returns int|time:Error {
     time:Civil epochCivil = {
         year: 1970, 
         month: 1, 

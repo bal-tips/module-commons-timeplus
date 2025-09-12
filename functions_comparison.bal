@@ -19,7 +19,8 @@ import ballerina/time;
 # + time1 - The first time
 # + time2 - The second time
 # + return - True if time1 is before time2
-public isolated function isBefore(time:Utc time1, time:Utc time2) returns boolean {
+@display {label: "Is Before", iconPath: "icon.png"}
+public isolated function isBefore(@display {label: "First Time"} time:Utc time1, @display {label: "Second Time"} time:Utc time2) returns boolean {
     decimal diff = time:utcDiffSeconds(time2, time1);
     return diff > 0.0d;
 }
@@ -29,7 +30,8 @@ public isolated function isBefore(time:Utc time1, time:Utc time2) returns boolea
 # + time1 - The first time
 # + time2 - The second time
 # + return - True if time1 is after time2
-public isolated function isAfter(time:Utc time1, time:Utc time2) returns boolean {
+@display {label: "Is After", iconPath: "icon.png"}
+public isolated function isAfter(@display {label: "First Time"} time:Utc time1, @display {label: "Second Time"} time:Utc time2) returns boolean {
     decimal diff = time:utcDiffSeconds(time2, time1);
     return diff < 0.0d;
 }
@@ -39,7 +41,8 @@ public isolated function isAfter(time:Utc time1, time:Utc time2) returns boolean
 # + time1 - The first time
 # + time2 - The second time
 # + return - True if the times are identical
-public isolated function isSame(time:Utc time1, time:Utc time2) returns boolean {
+@display {label: "Is Same Time", iconPath: "icon.png"}
+public isolated function isSame(@display {label: "First Time"} time:Utc time1, @display {label: "Second Time"} time:Utc time2) returns boolean {
     decimal diff = time:utcDiffSeconds(time2, time1);
     return diff == 0.0d;
 }
@@ -50,7 +53,8 @@ public isolated function isSame(time:Utc time1, time:Utc time2) returns boolean 
 # + startTime - The start time
 # + endTime - The end time
 # + return - True if timeToCheck is between startTime and endTime (inclusive)
-public isolated function isBetween(time:Utc timeToCheck, time:Utc startTime, time:Utc endTime) returns boolean {
+@display {label: "Is Between Times", iconPath: "icon.png"}
+public isolated function isBetween(@display {label: "Time to Check"} time:Utc timeToCheck, @display {label: "Start Time"} time:Utc startTime, @display {label: "End Time"} time:Utc endTime) returns boolean {
     return (isSame(timeToCheck, startTime) || isAfter(timeToCheck, startTime)) && 
            (isSame(timeToCheck, endTime) || isBefore(timeToCheck, endTime));
 }
@@ -59,7 +63,8 @@ public isolated function isBetween(time:Utc timeToCheck, time:Utc startTime, tim
 #
 # + utcTime - The UTC time containing the year to check
 # + return - True if the year is a leap year
-public isolated function isLeapYear(time:Utc utcTime) returns boolean {
+@display {label: "Is Leap Year", iconPath: "icon.png"}
+public isolated function isLeapYear(@display {label: "UTC Time"} time:Utc utcTime) returns boolean {
     int year = getYear(utcTime);
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
@@ -68,7 +73,8 @@ public isolated function isLeapYear(time:Utc utcTime) returns boolean {
 #
 # + utcTime - The UTC time
 # + return - The number of days in the month
-public isolated function daysInMonth(time:Utc utcTime) returns int {
+@display {label: "Get Days in Month", iconPath: "icon.png"}
+public isolated function daysInMonth(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
     int[] daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     

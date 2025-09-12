@@ -23,7 +23,8 @@ import ballerina/time;
 # + utcTime - The UTC time to add to
 # + duration - The duration to add
 # + return - The resulting UTC time
-public isolated function add(time:Utc utcTime, Duration duration) returns time:Utc|error {
+@display {label: "Add Duration", iconPath: "icon.png"}
+public isolated function add(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Duration"} Duration duration) returns time:Utc|error {
     time:Civil civilTime = time:utcToCivil(utcTime);
     
     // Add each component if present
@@ -143,7 +144,8 @@ public isolated function add(time:Utc utcTime, Duration duration) returns time:U
 # + utcTime - The UTC time to subtract from
 # + duration - The duration to subtract
 # + return - The resulting UTC time
-public isolated function subtract(time:Utc utcTime, Duration duration) returns time:Utc|error {
+@display {label: "Subtract Duration", iconPath: "icon.png"}
+public isolated function subtract(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Duration"} Duration duration) returns time:Utc|error {
     time:Civil civilTime = time:utcToCivil(utcTime);
     
     // Subtract each component if present
@@ -259,7 +261,8 @@ public isolated function subtract(time:Utc utcTime, Duration duration) returns t
 # + time1 - The first time
 # + time2 - The second time
 # + return - The duration from time1 to time2
-public isolated function difference(time:Utc time1, time:Utc time2) returns Duration {
+@display {label: "Calculate Time Difference", iconPath: "icon.png"}
+public isolated function difference(@display {label: "First Time"} time:Utc time1, @display {label: "Second Time"} time:Utc time2) returns Duration {
     decimal diffSeconds = time:utcDiffSeconds(time2, time1);
     
     // Convert to approximate duration components

@@ -18,7 +18,8 @@ import ballerina/time;
 #
 # + utcTime - The UTC time
 # + return - The year
-public isolated function getYear(time:Utc utcTime) returns int {
+@display {label: "Get Year", iconPath: "icon.png"}
+public isolated function getYear(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
     return civilTime.year;
 }
@@ -27,7 +28,8 @@ public isolated function getYear(time:Utc utcTime) returns int {
 #
 # + utcTime - The UTC time
 # + return - The month (1-12)
-public isolated function getMonth(time:Utc utcTime) returns int {
+@display {label: "Get Month", iconPath: "icon.png"}
+public isolated function getMonth(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
     return civilTime.month;
 }
@@ -36,7 +38,8 @@ public isolated function getMonth(time:Utc utcTime) returns int {
 #
 # + utcTime - The UTC time
 # + return - The day of month (1-31)
-public isolated function getDay(time:Utc utcTime) returns int {
+@display {label: "Get Day", iconPath: "icon.png"}
+public isolated function getDay(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
     return civilTime.day;
 }
@@ -45,7 +48,8 @@ public isolated function getDay(time:Utc utcTime) returns int {
 #
 # + utcTime - The UTC time
 # + return - The hour (0-23)
-public isolated function getHour(time:Utc utcTime) returns int {
+@display {label: "Get Hour", iconPath: "icon.png"}
+public isolated function getHour(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
     return civilTime.hour;
 }
@@ -54,7 +58,8 @@ public isolated function getHour(time:Utc utcTime) returns int {
 #
 # + utcTime - The UTC time
 # + return - The minute (0-59)
-public isolated function getMinute(time:Utc utcTime) returns int {
+@display {label: "Get Minute", iconPath: "icon.png"}
+public isolated function getMinute(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
     return civilTime.minute;
 }
@@ -63,7 +68,8 @@ public isolated function getMinute(time:Utc utcTime) returns int {
 #
 # + utcTime - The UTC time
 # + return - The second (0-59.999...)
-public isolated function getSecond(time:Utc utcTime) returns decimal {
+@display {label: "Get Second", iconPath: "icon.png"}
+public isolated function getSecond(@display {label: "UTC Time"} time:Utc utcTime) returns decimal {
     time:Civil civilTime = time:utcToCivil(utcTime);
     decimal? second = civilTime.second;
     return second ?: 0.0;
@@ -73,7 +79,8 @@ public isolated function getSecond(time:Utc utcTime) returns decimal {
 #
 # + utcTime - The UTC time
 # + return - The day of week as integer (0=Saturday, 1=Sunday, 2=Monday, etc.)
-public isolated function getDayOfWeek(time:Utc utcTime) returns int {
+@display {label: "Get Day of Week", iconPath: "icon.png"}
+public isolated function getDayOfWeek(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
     
     // Use Zeller's congruence algorithm to calculate day of week
@@ -100,7 +107,8 @@ public isolated function getDayOfWeek(time:Utc utcTime) returns int {
 # + utcTime - The UTC time
 # + locale - The locale to use (defaults to EN)
 # + return - The day of week name
-public isolated function getDayOfWeekName(time:Utc utcTime, Locale locale = EN) returns string {
+@display {label: "Get Day of Week Name", iconPath: "icon.png"}
+public isolated function getDayOfWeekName(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Locale"} Locale locale = EN) returns string {
     int dayOfWeek = getDayOfWeek(utcTime);
     
     // Convert Zeller's result (0=Saturday, 1=Sunday, 2=Monday, ..., 6=Friday) to day names
@@ -128,7 +136,8 @@ public isolated function getDayOfWeekName(time:Utc utcTime, Locale locale = EN) 
 #
 # + utcTime - The UTC time
 # + return - The day of year (1-366)
-public isolated function getDayOfYear(time:Utc utcTime) returns int {
+@display {label: "Get Day of Year", iconPath: "icon.png"}
+public isolated function getDayOfYear(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
     
     // Calculate day of year
@@ -154,7 +163,8 @@ public isolated function getDayOfYear(time:Utc utcTime) returns int {
 #
 # + utcTime - The UTC time
 # + return - The week of year (1-53)
-public isolated function getWeekOfYear(time:Utc utcTime) returns int {
+@display {label: "Get Week of Year", iconPath: "icon.png"}
+public isolated function getWeekOfYear(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     int dayOfYear = getDayOfYear(utcTime);
     
     // Simple week calculation (can be improved)
@@ -167,7 +177,8 @@ public isolated function getWeekOfYear(time:Utc utcTime) returns int {
 # + locale - The locale to use (defaults to EN)  
 # + singular - Whether to return singular form (defaults to true)
 # + return - The localized unit name
-public isolated function getUnitName(Unit unit, Locale locale = EN, boolean singular = true) returns string {
+@display {label: "Get Unit Name", iconPath: "icon.png"}
+public isolated function getUnitName(@display {label: "Time Unit"} Unit unit, @display {label: "Locale"} Locale locale = EN, @display {label: "Singular Form"} boolean singular = true) returns string {
     match locale {
         EN|EN_US|EN_CA|EN_AU|EN_NZ|EN_GB => {
             match unit {

@@ -19,7 +19,8 @@ import ballerina/time;
 # + utcTime - The UTC time
 # + days - The number of days to add
 # + return - The resulting UTC time
-public isolated function addDays(time:Utc utcTime, int days) returns time:Utc|time:Error {
+@display {label: "Add Days", iconPath: "icon.png"}
+public isolated function addDays(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Days"} int days) returns time:Utc|time:Error {
     Duration duration = {days: days};
     return add(utcTime, duration);
 }
@@ -29,7 +30,8 @@ public isolated function addDays(time:Utc utcTime, int days) returns time:Utc|ti
 # + utcTime - The UTC time
 # + hours - The number of hours to add
 # + return - The resulting UTC time
-public isolated function addHours(time:Utc utcTime, int hours) returns time:Utc|time:Error {
+@display {label: "Add Hours", iconPath: "icon.png"}
+public isolated function addHours(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Hours"} int hours) returns time:Utc|time:Error {
     Duration duration = {hours: hours};
     return add(utcTime, duration);
 }
@@ -39,7 +41,8 @@ public isolated function addHours(time:Utc utcTime, int hours) returns time:Utc|
 # + utcTime - The UTC time
 # + minutes - The number of minutes to add
 # + return - The resulting UTC time
-public isolated function addMinutes(time:Utc utcTime, int minutes) returns time:Utc|time:Error {
+@display {label: "Add Minutes", iconPath: "icon.png"}
+public isolated function addMinutes(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Minutes"} int minutes) returns time:Utc|time:Error {
     Duration duration = {minutes: minutes};
     return add(utcTime, duration);
 }
@@ -49,7 +52,8 @@ public isolated function addMinutes(time:Utc utcTime, int minutes) returns time:
 # + utcTime - The UTC time
 # + seconds - The number of seconds to add
 # + return - The resulting UTC time
-public isolated function addSeconds(time:Utc utcTime, decimal seconds) returns time:Utc|time:Error {
+@display {label: "Add Seconds", iconPath: "icon.png"}
+public isolated function addSeconds(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Seconds"} decimal seconds) returns time:Utc|time:Error {
     Duration duration = {seconds: seconds};
     return add(utcTime, duration);
 }
@@ -59,7 +63,8 @@ public isolated function addSeconds(time:Utc utcTime, decimal seconds) returns t
 # + utcTime - The UTC time
 # + weeks - The number of weeks to add
 # + return - The resulting UTC time
-public isolated function addWeeks(time:Utc utcTime, int weeks) returns time:Utc|time:Error {
+@display {label: "Add Weeks", iconPath: "icon.png"}
+public isolated function addWeeks(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Weeks"} int weeks) returns time:Utc|time:Error {
     Duration duration = {days: weeks * 7};
     return add(utcTime, duration);
 }
@@ -69,7 +74,8 @@ public isolated function addWeeks(time:Utc utcTime, int weeks) returns time:Utc|
 # + utcTime - The UTC time
 # + months - The number of months to add
 # + return - The resulting UTC time
-public isolated function addMonths(time:Utc utcTime, int months) returns time:Utc|time:Error {
+@display {label: "Add Months", iconPath: "icon.png"}
+public isolated function addMonths(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Months"} int months) returns time:Utc|time:Error {
     Duration duration = {months: months};
     return add(utcTime, duration);
 }
@@ -79,7 +85,8 @@ public isolated function addMonths(time:Utc utcTime, int months) returns time:Ut
 # + utcTime - The UTC time
 # + years - The number of years to add
 # + return - The resulting UTC time
-public isolated function addYears(time:Utc utcTime, int years) returns time:Utc|time:Error {
+@display {label: "Add Years", iconPath: "icon.png"}
+public isolated function addYears(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Years"} int years) returns time:Utc|time:Error {
     Duration duration = {years: years};
     return add(utcTime, duration);
 }
@@ -89,7 +96,8 @@ public isolated function addYears(time:Utc utcTime, int years) returns time:Utc|
 # + utcTime - The UTC time
 # + days - The number of days to subtract
 # + return - The resulting UTC time
-public isolated function subtractDays(time:Utc utcTime, int days) returns time:Utc|time:Error {
+@display {label: "Subtract Days", iconPath: "icon.png"}
+public isolated function subtractDays(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Days"} int days) returns time:Utc|time:Error {
     Duration duration = {days: days};
     return subtract(utcTime, duration);
 }
@@ -99,7 +107,8 @@ public isolated function subtractDays(time:Utc utcTime, int days) returns time:U
 # + utcTime - The UTC time
 # + hours - The number of hours to subtract
 # + return - The resulting UTC time
-public isolated function subtractHours(time:Utc utcTime, int hours) returns time:Utc|time:Error {
+@display {label: "Subtract Hours", iconPath: "icon.png"}
+public isolated function subtractHours(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Hours"} int hours) returns time:Utc|time:Error {
     Duration duration = {hours: hours};
     return subtract(utcTime, duration);
 }
@@ -109,7 +118,8 @@ public isolated function subtractHours(time:Utc utcTime, int hours) returns time
 # + utcTime - The UTC time
 # + minutes - The number of minutes to subtract
 # + return - The resulting UTC time
-public isolated function subtractMinutes(time:Utc utcTime, int minutes) returns time:Utc|time:Error {
+@display {label: "Subtract Minutes", iconPath: "icon.png"}
+public isolated function subtractMinutes(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Minutes"} int minutes) returns time:Utc|time:Error {
     Duration duration = {minutes: minutes};
     return subtract(utcTime, duration);
 }
@@ -119,7 +129,8 @@ public isolated function subtractMinutes(time:Utc utcTime, int minutes) returns 
 # + utcTime - The UTC time
 # + seconds - The number of seconds to subtract
 # + return - The resulting UTC time
-public isolated function subtractSeconds(time:Utc utcTime, decimal seconds) returns time:Utc|time:Error {
+@display {label: "Subtract Seconds", iconPath: "icon.png"}
+public isolated function subtractSeconds(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Seconds"} decimal seconds) returns time:Utc|time:Error {
     Duration duration = {seconds: seconds};
     return subtract(utcTime, duration);
 }
@@ -129,7 +140,8 @@ public isolated function subtractSeconds(time:Utc utcTime, decimal seconds) retu
 # + utcTime - The UTC time
 # + weeks - The number of weeks to subtract
 # + return - The resulting UTC time
-public isolated function subtractWeeks(time:Utc utcTime, int weeks) returns time:Utc|time:Error {
+@display {label: "Subtract Weeks", iconPath: "icon.png"}
+public isolated function subtractWeeks(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Weeks"} int weeks) returns time:Utc|time:Error {
     Duration duration = {days: weeks * 7};
     return subtract(utcTime, duration);
 }
@@ -139,7 +151,8 @@ public isolated function subtractWeeks(time:Utc utcTime, int weeks) returns time
 # + utcTime - The UTC time
 # + months - The number of months to subtract
 # + return - The resulting UTC time
-public isolated function subtractMonths(time:Utc utcTime, int months) returns time:Utc|time:Error {
+@display {label: "Subtract Months", iconPath: "icon.png"}
+public isolated function subtractMonths(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Months"} int months) returns time:Utc|time:Error {
     Duration duration = {months: months};
     return subtract(utcTime, duration);
 }
@@ -149,7 +162,8 @@ public isolated function subtractMonths(time:Utc utcTime, int months) returns ti
 # + utcTime - The UTC time
 # + years - The number of years to subtract
 # + return - The resulting UTC time
-public isolated function subtractYears(time:Utc utcTime, int years) returns time:Utc|time:Error {
+@display {label: "Subtract Years", iconPath: "icon.png"}
+public isolated function subtractYears(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Number of Years"} int years) returns time:Utc|time:Error {
     Duration duration = {years: years};
     return subtract(utcTime, duration);
 }

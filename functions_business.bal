@@ -18,7 +18,8 @@ import ballerina/time;
 #
 # + utcTime - The UTC time to check
 # + return - True if it's a weekend
-public isolated function isWeekend(time:Utc utcTime) returns boolean {
+@display {label: "Is Weekend", iconPath: "icon.png"}
+public isolated function isWeekend(@display {label: "UTC Time"} time:Utc utcTime) returns boolean {
     int dayOfWeek = getDayOfWeek(utcTime);
     return dayOfWeek == 0 || dayOfWeek == 1; // Saturday=0, Sunday=1
 }
@@ -27,7 +28,8 @@ public isolated function isWeekend(time:Utc utcTime) returns boolean {
 #
 # + utcTime - The UTC time to check
 # + return - True if it's a weekday
-public isolated function isWeekday(time:Utc utcTime) returns boolean {
+@display {label: "Is Weekday", iconPath: "icon.png"}
+public isolated function isWeekday(@display {label: "UTC Time"} time:Utc utcTime) returns boolean {
     return !isWeekend(utcTime);
 }
 
@@ -35,7 +37,8 @@ public isolated function isWeekday(time:Utc utcTime) returns boolean {
 #
 # + utcTime - The UTC time
 # + return - The next weekday
-public isolated function nextWeekday(time:Utc utcTime) returns time:Utc|time:Error {
+@display {label: "Get Next Weekday", iconPath: "icon.png"}
+public isolated function nextWeekday(@display {label: "UTC Time"} time:Utc utcTime) returns time:Utc|time:Error {
     time:Utc nextDay = check addDays(utcTime, 1);
     while isWeekend(nextDay) {
         nextDay = check addDays(nextDay, 1);
@@ -47,7 +50,8 @@ public isolated function nextWeekday(time:Utc utcTime) returns time:Utc|time:Err
 #
 # + utcTime - The UTC time
 # + return - The previous weekday
-public isolated function previousWeekday(time:Utc utcTime) returns time:Utc|time:Error {
+@display {label: "Get Previous Weekday", iconPath: "icon.png"}
+public isolated function previousWeekday(@display {label: "UTC Time"} time:Utc utcTime) returns time:Utc|time:Error {
     time:Utc prevDay = check subtractDays(utcTime, 1);
     while isWeekend(prevDay) {
         prevDay = check subtractDays(prevDay, 1);
@@ -60,7 +64,8 @@ public isolated function previousWeekday(time:Utc utcTime) returns time:Utc|time
 # + utcTime - The UTC time
 # + businessDays - The number of business days to add
 # + return - The resulting UTC time
-public isolated function addBusinessDays(time:Utc utcTime, int businessDays) returns time:Utc|time:Error {
+@display {label: "Add Business Days", iconPath: "icon.png"}
+public isolated function addBusinessDays(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Business Days"} int businessDays) returns time:Utc|time:Error {
     time:Utc result = utcTime;
     int remainingDays = businessDays;
     
@@ -86,7 +91,8 @@ public isolated function addBusinessDays(time:Utc utcTime, int businessDays) ret
 # + birthTime - The birth time
 # + currentTime - The current time (optional, defaults to now)
 # + return - The age as a Duration
-public isolated function age(time:Utc birthTime, time:Utc? currentTime = ()) returns Duration {
+@display {label: "Calculate Age", iconPath: "icon.png"}
+public isolated function age(@display {label: "Birth Time"} time:Utc birthTime, @display {label: "Current Time"} time:Utc? currentTime = ()) returns Duration {
     time:Utc compareTime = currentTime ?: now();
     return difference(birthTime, compareTime);
 }
@@ -96,7 +102,8 @@ public isolated function age(time:Utc birthTime, time:Utc? currentTime = ()) ret
 # + duration - The duration to format
 # + locale - The locale to use (defaults to EN)
 # + return - Human-readable duration string
-public isolated function humanizeDuration(Duration duration, Locale locale = EN) returns string {
+@display {label: "Convert Duration to Human Readable", iconPath: "icon.png"}
+public isolated function humanizeDuration(@display {label: "Duration"} Duration duration, @display {label: "Locale"} Locale locale = EN) returns string {
     string[] parts = [];
     
     if duration.years is int && duration.years > 0 {
@@ -154,7 +161,8 @@ public isolated function humanizeDuration(Duration duration, Locale locale = EN)
 # + duration - The duration to format
 # + format - The format string (basic implementation)
 # + return - Formatted duration string
-public isolated function formatDuration(Duration duration, string format) returns string {
+@display {label: "Format Duration", iconPath: "icon.png"}
+public isolated function formatDuration(@display {label: "Duration"} Duration duration, @display {label: "Format String"} string format) returns string {
     // Basic format implementation - can be extended
     match format {
         "hh:mm:ss" => {

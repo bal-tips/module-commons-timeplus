@@ -179,7 +179,8 @@ isolated function getDayOfWeekNameEnum(int dayOfWeek) returns DayOfWeekName {
 #
 # + utcTime - The UTC time
 # + return - The DayOfWeekName enum value
-public isolated function toDayOfWeekEnum(time:Utc utcTime) returns DayOfWeekName {
+@display {label: "Convert to Day of Week Enum", iconPath: "icon.png"}
+public isolated function toDayOfWeekEnum(@display {label: "UTC Time"} time:Utc utcTime) returns DayOfWeekName {
     int dayOfWeek = getDayOfWeek(utcTime);
     return getDayOfWeekNameEnum(dayOfWeek);
 }
@@ -190,7 +191,8 @@ public isolated function toDayOfWeekEnum(time:Utc utcTime) returns DayOfWeekName
 # + format - The format enum to use for conversion
 # + locale - The locale to use for text elements (defaults to EN)
 # + return - The formatted string
-public isolated function toString(time:Utc utcTime, TimeFormat format, Locale locale = EN) returns string {
+@display {label: "Convert Time to String", iconPath: "icon.png"}
+public isolated function toString(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Time Format"} TimeFormat format, @display {label: "Locale"} Locale locale = EN) returns string {
     time:Civil civilTime = time:utcToCivil(utcTime);
     
     // Extract components
@@ -299,7 +301,8 @@ public isolated function toString(time:Utc utcTime, TimeFormat format, Locale lo
 # + timeStr - The time string to parse
 # + format - The format enum to use for parsing  
 # + return - The parsed UTC time or an error if parsing fails
-public isolated function fromString(string timeStr, TimeFormat format) returns time:Utc|error {
+@display {label: "Parse Time String", iconPath: "icon.png"}
+public isolated function fromString(@display {label: "Time String"} string timeStr, @display {label: "Time Format"} TimeFormat format) returns time:Utc|error {
     // Basic format parsing implementation - can be extended
     if format == ISO_8601 || format == ISO_8601_Z {
         // Handle ISO 8601 format: YYYY-MM-DDTHH:mm:ss.sssZ
