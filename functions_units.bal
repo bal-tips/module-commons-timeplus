@@ -16,13 +16,15 @@ import ballerina/time;
 
 # Gets the exact start of a given time unit
 #
+# This function can return an error if the civil time conversion fails
+#
 # + utcTime - The UTC time
 # + unit - The time unit (year, month, day, hour, minute, second)
-# + return - The time at the start of the unit
+# + return - The time at the start of the unit or an error
 @display {label: "Get Start of Time Unit", iconPath: "icon.png"}
 public isolated function startOf(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Time Unit"} Unit unit) returns time:Utc|time:Error {
     time:Civil civilTime = time:utcToCivil(utcTime);
-    
+
     match unit {
         YEAR => {
             time:Civil startCivil = {
@@ -87,12 +89,12 @@ public isolated function startOf(@display {label: "UTC Time"} time:Utc utcTime, 
         SECOND => {
             decimal currentSecond = civilTime.second ?: 0.0d;
             decimal fractionalPart = currentSecond % 1.0d;
-            
+
             // If already at whole second (fractional part is 0), return as is
             if (fractionalPart == 0.0d) {
                 return utcTime;
             }
-            
+
             // Calculate seconds to subtract to get to start of second
             decimal secondsToSubtract = fractionalPart;
             return time:utcAddSeconds(utcTime, -secondsToSubtract);
@@ -105,13 +107,15 @@ public isolated function startOf(@display {label: "UTC Time"} time:Utc utcTime, 
 
 # Gets the exact end of a given time unit
 #
+# This function can return an error if the civil time conversion fails
+#
 # + utcTime - The UTC time
 # + unit - The time unit (year, month, day, hour, minute, second)
-# + return - The time at the end of the unit
+# + return - The time at the end of the unit or an error
 @display {label: "Get End of Time Unit", iconPath: "icon.png"}
 public isolated function endOf(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Time Unit"} Unit unit) returns time:Utc|time:Error {
     time:Civil civilTime = time:utcToCivil(utcTime);
-    
+
     match unit {
         YEAR => {
             time:Civil endCivil = {
@@ -177,12 +181,12 @@ public isolated function endOf(@display {label: "UTC Time"} time:Utc utcTime, @d
         SECOND => {
             decimal currentSecond = civilTime.second ?: 0.0d;
             decimal fractionalPart = currentSecond % 1.0d;
-            
+
             // If already at .999, return as is
             if (fractionalPart >= 0.999d) {
                 return utcTime;
             }
-            
+
             // Calculate seconds to add to get to end of second
             decimal secondsToAdd = 0.999d - fractionalPart;
             return time:utcAddSeconds(utcTime, secondsToAdd);

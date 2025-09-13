@@ -100,7 +100,7 @@ function testIsBetween() returns error? {
     time:Utc startTime = check time:utcFromString("2023-09-15T10:00:00Z");
     time:Utc middleTime = check time:utcFromString("2023-09-15T12:00:00Z");
     time:Utc endTime = check time:utcFromString("2023-09-15T14:00:00Z");
-    
+
     test:assertTrue(isBetween(middleTime, startTime, endTime), "Middle time should be between start and end");
     test:assertFalse(isBetween(startTime, middleTime, endTime), "Start time should not be between middle and end");
     test:assertFalse(isBetween(endTime, startTime, middleTime), "End time should not be between start and middle");
@@ -113,7 +113,7 @@ function testIsBetween() returns error? {
     time:Utc morning = check time:utcFromString("2023-09-15T09:00:00Z");
     time:Utc noon = check time:utcFromString("2023-09-15T12:00:00Z");
     time:Utc evening = check time:utcFromString("2023-09-15T18:00:00Z");
-    
+
     test:assertTrue(isBetween(noon, morning, evening), "Noon should be between morning and evening");
     test:assertFalse(isBetween(morning, noon, evening), "Morning should not be between noon and evening");
 
@@ -229,7 +229,7 @@ function testEdgeCaseComparisons() returns error? {
     // Test comparison with very close times (millisecond precision)
     time:Utc baseTime = check time:utcFromString("2023-09-15T12:00:00.000Z");
     time:Utc oneMilli = check time:utcFromString("2023-09-15T12:00:00.001Z");
-    
+
     test:assertTrue(isBefore(baseTime, oneMilli), "Base time should be before time + 1ms");
     test:assertTrue(isAfter(oneMilli, baseTime), "Time + 1ms should be after base time");
     test:assertFalse(isSame(baseTime, oneMilli), "Times differing by 1ms should not be same");
@@ -238,7 +238,7 @@ function testEdgeCaseComparisons() returns error? {
     // This tests the boundaries of the time system
     time:Utc minTime = check time:utcFromString("1970-01-01T00:00:00.000Z");
     time:Utc futureTime = check time:utcFromString("2100-12-31T23:59:59.999Z");
-    
+
     test:assertTrue(isBefore(minTime, futureTime), "Min time should be before future time");
     test:assertTrue(isAfter(futureTime, minTime), "Future time should be after min time");
 }

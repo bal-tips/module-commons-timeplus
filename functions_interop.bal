@@ -22,16 +22,16 @@ import ballerina/time;
 public isolated function fromJsTimestamp(@display {label: "Milliseconds"} decimal milliseconds) returns time:Utc|time:Error {
     decimal seconds = milliseconds / 1000.0d;
     time:Civil epochCivil = {
-        year: 1970, 
-        month: 1, 
-        day: 1, 
-        hour: 0, 
-        minute: 0, 
+        year: 1970,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
         second: 0.0,
         utcOffset: {hours: 0, minutes: 0}
     };
     time:Utc epochUtc = check time:utcFromCivil(epochCivil);
-    
+
     // Add the seconds to epoch using time:utcAddSeconds
     return time:utcAddSeconds(epochUtc, seconds);
 }
@@ -43,16 +43,16 @@ public isolated function fromJsTimestamp(@display {label: "Milliseconds"} decima
 @display {label: "Convert to JS Timestamp", iconPath: "icon.png"}
 public isolated function toJsTimestamp(@display {label: "UTC Time"} time:Utc utcTime) returns decimal|time:Error {
     time:Civil epochCivil = {
-        year: 1970, 
-        month: 1, 
-        day: 1, 
-        hour: 0, 
-        minute: 0, 
+        year: 1970,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
         second: 0.0,
         utcOffset: {hours: 0, minutes: 0}
     };
     time:Utc epochUtc = check time:utcFromCivil(epochCivil);
-    
+
     // Calculate difference in seconds and convert to milliseconds
     decimal diffSeconds = time:utcDiffSeconds(utcTime, epochUtc);
     return diffSeconds * 1000.0d;
@@ -65,16 +65,16 @@ public isolated function toJsTimestamp(@display {label: "UTC Time"} time:Utc utc
 @display {label: "Convert from Python Timestamp", iconPath: "icon.png"}
 public isolated function fromPythonTimestamp(@display {label: "Seconds"} decimal seconds) returns time:Utc|time:Error {
     time:Civil epochCivil = {
-        year: 1970, 
-        month: 1, 
-        day: 1, 
-        hour: 0, 
-        minute: 0, 
+        year: 1970,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
         second: 0.0,
         utcOffset: {hours: 0, minutes: 0}
     };
     time:Utc epochUtc = check time:utcFromCivil(epochCivil);
-    
+
     // Add the seconds to epoch using time:utcAddSeconds
     return time:utcAddSeconds(epochUtc, seconds);
 }
@@ -86,16 +86,16 @@ public isolated function fromPythonTimestamp(@display {label: "Seconds"} decimal
 @display {label: "Convert to Python Timestamp", iconPath: "icon.png"}
 public isolated function toPythonTimestamp(@display {label: "UTC Time"} time:Utc utcTime) returns decimal|time:Error {
     time:Civil epochCivil = {
-        year: 1970, 
-        month: 1, 
-        day: 1, 
-        hour: 0, 
-        minute: 0, 
+        year: 1970,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
         second: 0.0,
         utcOffset: {hours: 0, minutes: 0}
     };
     time:Utc epochUtc = check time:utcFromCivil(epochCivil);
-    
+
     return time:utcDiffSeconds(utcTime, epochUtc);
 }
 
@@ -106,16 +106,16 @@ public isolated function toPythonTimestamp(@display {label: "UTC Time"} time:Utc
 @display {label: "Convert from Unix Timestamp", iconPath: "icon.png"}
 public isolated function fromUnixTimestamp(@display {label: "Seconds"} int seconds) returns time:Utc|time:Error {
     time:Civil epochCivil = {
-        year: 1970, 
-        month: 1, 
-        day: 1, 
-        hour: 0, 
-        minute: 0, 
+        year: 1970,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
         second: 0.0,
         utcOffset: {hours: 0, minutes: 0}
     };
     time:Utc epochUtc = check time:utcFromCivil(epochCivil);
-    
+
     // Add the seconds to epoch using time:utcAddSeconds
     return time:utcAddSeconds(epochUtc, <decimal>seconds);
 }
@@ -127,11 +127,11 @@ public isolated function fromUnixTimestamp(@display {label: "Seconds"} int secon
 @display {label: "Convert to Unix Timestamp", iconPath: "icon.png"}
 public isolated function toUnixTimestamp(@display {label: "UTC Time"} time:Utc utcTime) returns int|time:Error {
     time:Civil epochCivil = {
-        year: 1970, 
-        month: 1, 
-        day: 1, 
-        hour: 0, 
-        minute: 0, 
+        year: 1970,
+        month: 1,
+        day: 1,
+        hour: 0,
+        minute: 0,
         second: 0.0,
         utcOffset: {hours: 0, minutes: 0}
     };

@@ -33,7 +33,7 @@ public enum Unit {
     # Year
     YEAR = "year",
     # Month
-    MONTH = "month", 
+    MONTH = "month",
     # Day
     DAY = "day",
     # Hour
@@ -49,9 +49,9 @@ public enum Locale {
     # English
     EN = "en",
     # English (US)
-    EN_US = "en_US", 
+    EN_US = "en_US",
     # English (UK)
-    EN_GB = "en_GB", 
+    EN_GB = "en_GB",
     # English (Canada)
     EN_CA = "en_CA",
     # English (Australia)
@@ -67,7 +67,7 @@ public enum DayOfWeekName {
     # Monday
     MONDAY = "Monday",
     # Tuesday
-    TUESDAY = "Tuesday", 
+    TUESDAY = "Tuesday",
     # Wednesday
     WEDNESDAY = "Wednesday",
     # Thursday
@@ -85,7 +85,7 @@ public enum TimeFormat {
     # ISO 8601 with Z
     ISO_8601_Z = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
     # RFC 3339 format
-    RFC_3339 = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX", 
+    RFC_3339 = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
     # RFC 1123 format
     RFC_1123 = "EEE, dd MMM yyyy HH:mm:ss z",
     # Year-Month-Day

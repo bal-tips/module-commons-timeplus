@@ -82,23 +82,23 @@ public isolated function getSecond(@display {label: "UTC Time"} time:Utc utcTime
 @display {label: "Get Day of Week", iconPath: "icon.png"}
 public isolated function getDayOfWeek(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
-    
+
     // Use Zeller's congruence algorithm to calculate day of week
     int year = civilTime.year;
     int month = civilTime.month;
     int day = civilTime.day;
-    
+
     // Adjust month and year for Zeller's congruence (January and February are counted as months 13 and 14 of the previous year)
     if month < 3 {
         month += 12;
         year -= 1;
     }
-    
+
     // Zeller's congruence formula
     int century = year / 100;
     int yearOfCentury = year % 100;
     int dayOfWeek = (day + ((13 * (month + 1)) / 5) + yearOfCentury + (yearOfCentury / 4) + (century / 4) - (2 * century)) % 7;
-    
+
     return dayOfWeek;
 }
 
@@ -110,19 +110,35 @@ public isolated function getDayOfWeek(@display {label: "UTC Time"} time:Utc utcT
 @display {label: "Get Day of Week Name", iconPath: "icon.png"}
 public isolated function getDayOfWeekName(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Locale"} Locale locale = EN) returns string {
     int dayOfWeek = getDayOfWeek(utcTime);
-    
+
     // Convert Zeller's result (0=Saturday, 1=Sunday, 2=Monday, ..., 6=Friday) to day names
     match locale {
         EN|EN_US|EN_CA|EN_AU|EN_NZ|EN_GB => {
             match dayOfWeek {
-                0 => { return "Saturday"; }
-                1 => { return "Sunday"; }
-                2 => { return "Monday"; }
-                3 => { return "Tuesday"; }
-                4 => { return "Wednesday"; }
-                5 => { return "Thursday"; }
-                6 => { return "Friday"; }
-                _ => { return "Sunday"; } // Default fallback
+                0 => {
+                    return "Saturday";
+                }
+                1 => {
+                    return "Sunday";
+                }
+                2 => {
+                    return "Monday";
+                }
+                3 => {
+                    return "Tuesday";
+                }
+                4 => {
+                    return "Wednesday";
+                }
+                5 => {
+                    return "Thursday";
+                }
+                6 => {
+                    return "Friday";
+                }
+                _ => {
+                    return "Sunday";
+                } // Default fallback
             }
         }
         _ => {
@@ -139,23 +155,23 @@ public isolated function getDayOfWeekName(@display {label: "UTC Time"} time:Utc 
 @display {label: "Get Day of Year", iconPath: "icon.png"}
 public isolated function getDayOfYear(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
-    
+
     // Calculate day of year
     int[] daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    
+
     // Check if leap year
     boolean isLeap = (civilTime.year % 4 == 0 && civilTime.year % 100 != 0) || (civilTime.year % 400 == 0);
     if isLeap {
         daysInMonth[1] = 29; // February has 29 days in leap year
     }
-    
+
     int dayOfYear = civilTime.day;
     int monthIndex = 0;
     while monthIndex < civilTime.month - 1 {
         dayOfYear += daysInMonth[monthIndex];
         monthIndex += 1;
     }
-    
+
     return dayOfYear;
 }
 
@@ -166,7 +182,7 @@ public isolated function getDayOfYear(@display {label: "UTC Time"} time:Utc utcT
 @display {label: "Get Week of Year", iconPath: "icon.png"}
 public isolated function getWeekOfYear(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     int dayOfYear = getDayOfYear(utcTime);
-    
+
     // Simple week calculation (can be improved)
     return (dayOfYear - 1) / 7 + 1;
 }
@@ -182,13 +198,27 @@ public isolated function getUnitName(@display {label: "Time Unit"} Unit unit, @d
     match locale {
         EN|EN_US|EN_CA|EN_AU|EN_NZ|EN_GB => {
             match unit {
-                YEAR => { return singular ? "year" : "years"; }
-                MONTH => { return singular ? "month" : "months"; }
-                DAY => { return singular ? "day" : "days"; }
-                HOUR => { return singular ? "hour" : "hours"; }
-                MINUTE => { return singular ? "minute" : "minutes"; }
-                SECOND => { return singular ? "second" : "seconds"; }
-                _ => { return singular ? "unit" : "units"; }
+                YEAR => {
+                    return singular ? "year" : "years";
+                }
+                MONTH => {
+                    return singular ? "month" : "months";
+                }
+                DAY => {
+                    return singular ? "day" : "days";
+                }
+                HOUR => {
+                    return singular ? "hour" : "hours";
+                }
+                MINUTE => {
+                    return singular ? "minute" : "minutes";
+                }
+                SECOND => {
+                    return singular ? "second" : "seconds";
+                }
+                _ => {
+                    return singular ? "unit" : "units";
+                }
             }
         }
         _ => {

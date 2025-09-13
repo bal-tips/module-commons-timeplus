@@ -55,8 +55,8 @@ public isolated function isSame(@display {label: "First Time"} time:Utc time1, @
 # + return - True if timeToCheck is between startTime and endTime (inclusive)
 @display {label: "Is Between Times", iconPath: "icon.png"}
 public isolated function isBetween(@display {label: "Time to Check"} time:Utc timeToCheck, @display {label: "Start Time"} time:Utc startTime, @display {label: "End Time"} time:Utc endTime) returns boolean {
-    return (isSame(timeToCheck, startTime) || isAfter(timeToCheck, startTime)) && 
-           (isSame(timeToCheck, endTime) || isBefore(timeToCheck, endTime));
+    return (isSame(timeToCheck, startTime) || isAfter(timeToCheck, startTime)) &&
+            (isSame(timeToCheck, endTime) || isBefore(timeToCheck, endTime));
 }
 
 # Checks if a year is a leap year
@@ -77,10 +77,10 @@ public isolated function isLeapYear(@display {label: "UTC Time"} time:Utc utcTim
 public isolated function daysInMonth(@display {label: "UTC Time"} time:Utc utcTime) returns int {
     time:Civil civilTime = time:utcToCivil(utcTime);
     int[] daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    
+
     if civilTime.month == 2 && isLeapYear(utcTime) {
         return 29;
     }
-    
+
     return daysInMonths[civilTime.month - 1];
 }

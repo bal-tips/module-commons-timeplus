@@ -45,37 +45,89 @@ isolated function getMonthName(int month, Locale locale = EN) returns string {
     match locale {
         EN|EN_US|EN_CA|EN_AU|EN_NZ => {
             match month {
-                1 => { return "January"; }
-                2 => { return "February"; }
-                3 => { return "March"; }
-                4 => { return "April"; }
-                5 => { return "May"; }
-                6 => { return "June"; }
-                7 => { return "July"; }
-                8 => { return "August"; }
-                9 => { return "September"; }
-                10 => { return "October"; }
-                11 => { return "November"; }
-                12 => { return "December"; }
-                _ => { return "Unknown"; }
+                1 => {
+                    return "January";
+                }
+                2 => {
+                    return "February";
+                }
+                3 => {
+                    return "March";
+                }
+                4 => {
+                    return "April";
+                }
+                5 => {
+                    return "May";
+                }
+                6 => {
+                    return "June";
+                }
+                7 => {
+                    return "July";
+                }
+                8 => {
+                    return "August";
+                }
+                9 => {
+                    return "September";
+                }
+                10 => {
+                    return "October";
+                }
+                11 => {
+                    return "November";
+                }
+                12 => {
+                    return "December";
+                }
+                _ => {
+                    return "Unknown";
+                }
             }
         }
         EN_GB => {
             // British English - same as standard English for months
             match month {
-                1 => { return "January"; }
-                2 => { return "February"; }
-                3 => { return "March"; }
-                4 => { return "April"; }
-                5 => { return "May"; }
-                6 => { return "June"; }
-                7 => { return "July"; }
-                8 => { return "August"; }
-                9 => { return "September"; }
-                10 => { return "October"; }
-                11 => { return "November"; }
-                12 => { return "December"; }
-                _ => { return "Unknown"; }
+                1 => {
+                    return "January";
+                }
+                2 => {
+                    return "February";
+                }
+                3 => {
+                    return "March";
+                }
+                4 => {
+                    return "April";
+                }
+                5 => {
+                    return "May";
+                }
+                6 => {
+                    return "June";
+                }
+                7 => {
+                    return "July";
+                }
+                8 => {
+                    return "August";
+                }
+                9 => {
+                    return "September";
+                }
+                10 => {
+                    return "October";
+                }
+                11 => {
+                    return "November";
+                }
+                12 => {
+                    return "December";
+                }
+                _ => {
+                    return "Unknown";
+                }
             }
         }
         _ => {
@@ -94,19 +146,45 @@ isolated function getMonthAbbr(int month, Locale locale = EN) returns string {
     match locale {
         EN|EN_US|EN_CA|EN_AU|EN_NZ|EN_GB => {
             match month {
-                1 => { return "Jan"; }
-                2 => { return "Feb"; }
-                3 => { return "Mar"; }
-                4 => { return "Apr"; }
-                5 => { return "May"; }
-                6 => { return "Jun"; }
-                7 => { return "Jul"; }
-                8 => { return "Aug"; }
-                9 => { return "Sep"; }
-                10 => { return "Oct"; }
-                11 => { return "Nov"; }
-                12 => { return "Dec"; }
-                _ => { return "Unk"; }
+                1 => {
+                    return "Jan";
+                }
+                2 => {
+                    return "Feb";
+                }
+                3 => {
+                    return "Mar";
+                }
+                4 => {
+                    return "Apr";
+                }
+                5 => {
+                    return "May";
+                }
+                6 => {
+                    return "Jun";
+                }
+                7 => {
+                    return "Jul";
+                }
+                8 => {
+                    return "Aug";
+                }
+                9 => {
+                    return "Sep";
+                }
+                10 => {
+                    return "Oct";
+                }
+                11 => {
+                    return "Nov";
+                }
+                12 => {
+                    return "Dec";
+                }
+                _ => {
+                    return "Unk";
+                }
             }
         }
         _ => {
@@ -141,14 +219,30 @@ isolated function getWeekDayAbbr(int dayOfWeek, Locale locale = EN) returns stri
     match locale {
         EN|EN_US|EN_CA|EN_AU|EN_NZ|EN_GB => {
             match dayOfWeek {
-                0 => { return "Sat"; }
-                1 => { return "Sun"; }
-                2 => { return "Mon"; }
-                3 => { return "Tue"; }
-                4 => { return "Wed"; }
-                5 => { return "Thu"; }
-                6 => { return "Fri"; }
-                _ => { return "Sun"; }
+                0 => {
+                    return "Sat";
+                }
+                1 => {
+                    return "Sun";
+                }
+                2 => {
+                    return "Mon";
+                }
+                3 => {
+                    return "Tue";
+                }
+                4 => {
+                    return "Wed";
+                }
+                5 => {
+                    return "Thu";
+                }
+                6 => {
+                    return "Fri";
+                }
+                _ => {
+                    return "Sun";
+                }
             }
         }
         _ => {
@@ -164,14 +258,30 @@ isolated function getWeekDayAbbr(int dayOfWeek, Locale locale = EN) returns stri
 # + return - The DayOfWeekName enum value
 isolated function getDayOfWeekNameEnum(int dayOfWeek) returns DayOfWeekName {
     match dayOfWeek {
-        0 => { return SATURDAY; }
-        1 => { return SUNDAY; }
-        2 => { return MONDAY; }
-        3 => { return TUESDAY; }
-        4 => { return WEDNESDAY; }
-        5 => { return THURSDAY; }
-        6 => { return FRIDAY; }
-        _ => { return SUNDAY; } // Default fallback
+        0 => {
+            return SATURDAY;
+        }
+        1 => {
+            return SUNDAY;
+        }
+        2 => {
+            return MONDAY;
+        }
+        3 => {
+            return TUESDAY;
+        }
+        4 => {
+            return WEDNESDAY;
+        }
+        5 => {
+            return THURSDAY;
+        }
+        6 => {
+            return FRIDAY;
+        }
+        _ => {
+            return SUNDAY;
+        } // Default fallback
     }
 }
 
@@ -194,7 +304,7 @@ public isolated function toDayOfWeekEnum(@display {label: "UTC Time"} time:Utc u
 @display {label: "Convert Time to String", iconPath: "icon.png"}
 public isolated function toString(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Time Format"} TimeFormat format, @display {label: "Locale"} Locale locale = EN) returns string {
     time:Civil civilTime = time:utcToCivil(utcTime);
-    
+
     // Extract components
     int year = civilTime.year;
     int month = civilTime.month;
@@ -204,91 +314,91 @@ public isolated function toString(@display {label: "UTC Time"} time:Utc utcTime,
     decimal second = civilTime.second ?: 0.0d;
     int wholeSeconds = <int>second;
     int milliseconds = <int>((second - <decimal>wholeSeconds) * 1000.0d);
-    
+
     // Format according to the specified format enum
     match format {
         ISO_8601|ISO_8601_Z|RFC_3339 => {
-            return string`${year}-${pad2(month)}-${pad2(day)}T${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}.${pad3(milliseconds)}Z`;
+            return string `${year}-${pad2(month)}-${pad2(day)}T${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}.${pad3(milliseconds)}Z`;
         }
         RFC_1123 => {
             int dayOfWeek = getDayOfWeek(utcTime);
             string dayAbbr = getWeekDayAbbr(dayOfWeek, locale);
             string monthAbbr = getMonthAbbr(month, locale);
-            return string`${dayAbbr}, ${pad2(day)} ${monthAbbr} ${year} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)} GMT`;
+            return string `${dayAbbr}, ${pad2(day)} ${monthAbbr} ${year} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)} GMT`;
         }
         YYYY_MM_DD => {
-            return string`${year}-${pad2(month)}-${pad2(day)}`;
+            return string `${year}-${pad2(month)}-${pad2(day)}`;
         }
         MM_DD_YYYY => {
-            return string`${pad2(month)}/${pad2(day)}/${year}`;
+            return string `${pad2(month)}/${pad2(day)}/${year}`;
         }
         DD_MM_YYYY => {
-            return string`${pad2(day)}/${pad2(month)}/${year}`;
+            return string `${pad2(day)}/${pad2(month)}/${year}`;
         }
         DD_MMM_YYYY => {
             string monthAbbr = getMonthAbbr(month, locale);
-            return string`${pad2(day)} ${monthAbbr} ${year}`;
+            return string `${pad2(day)} ${monthAbbr} ${year}`;
         }
         MMM_DD_YYYY => {
             string monthAbbr = getMonthAbbr(month, locale);
-            return string`${monthAbbr} ${pad2(day)}, ${year}`;
+            return string `${monthAbbr} ${pad2(day)}, ${year}`;
         }
         MMMM_DD_YYYY => {
             string monthName = getMonthName(month, locale);
-            return string`${monthName} ${pad2(day)}, ${year}`;
+            return string `${monthName} ${pad2(day)}, ${year}`;
         }
         YYYY_MM_DD_HH_MM_SS => {
-            return string`${year}-${pad2(month)}-${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
+            return string `${year}-${pad2(month)}-${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
         }
         US_COMMON_DATETIME => {
             [int, string] hourAmpm = to12Hour(hour);
-            return string`${pad2(month)}/${pad2(day)}/${year}, ${pad2(hourAmpm[0])}:${pad2(minute)}:${pad2(wholeSeconds)} ${hourAmpm[1]}`;
+            return string `${pad2(month)}/${pad2(day)}/${year}, ${pad2(hourAmpm[0])}:${pad2(minute)}:${pad2(wholeSeconds)} ${hourAmpm[1]}`;
         }
         EU_COMMON_DATETIME => {
-            return string`${pad2(day)}/${pad2(month)}/${year} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
+            return string `${pad2(day)}/${pad2(month)}/${year} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
         }
         SHORT_DATETIME => {
-            return string`${year}-${pad2(month)}-${pad2(day)} ${pad2(hour)}:${pad2(minute)}`;
+            return string `${year}-${pad2(month)}-${pad2(day)} ${pad2(hour)}:${pad2(minute)}`;
         }
         LONG_DATETIME => {
             string dayName = getDayOfWeekName(utcTime, locale);
             string monthName = getMonthName(month, locale);
             [int, string] hourAmpm = to12Hour(hour);
-            return string`${dayName}, ${monthName} ${pad2(day)}, ${year} at ${pad2(hourAmpm[0])}:${pad2(minute)}:${pad2(wholeSeconds)} ${hourAmpm[1]}`;
+            return string `${dayName}, ${monthName} ${pad2(day)}, ${year} at ${pad2(hourAmpm[0])}:${pad2(minute)}:${pad2(wholeSeconds)} ${hourAmpm[1]}`;
         }
         HH_MM_SS => {
-            return string`${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
+            return string `${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
         }
         HH_MM => {
-            return string`${pad2(hour)}:${pad2(minute)}`;
+            return string `${pad2(hour)}:${pad2(minute)}`;
         }
         HH_MM_SS_12H => {
             [int, string] hourAmpm = to12Hour(hour);
-            return string`${pad2(hourAmpm[0])}:${pad2(minute)}:${pad2(wholeSeconds)} ${hourAmpm[1]}`;
+            return string `${pad2(hourAmpm[0])}:${pad2(minute)}:${pad2(wholeSeconds)} ${hourAmpm[1]}`;
         }
         HH_MM_12H => {
             [int, string] hourAmpm = to12Hour(hour);
-            return string`${pad2(hourAmpm[0])}:${pad2(minute)} ${hourAmpm[1]}`;
+            return string `${pad2(hourAmpm[0])}:${pad2(minute)} ${hourAmpm[1]}`;
         }
         SQL_DATETIME => {
-            return string`${year}-${pad2(month)}-${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}.${pad3(milliseconds)}`;
+            return string `${year}-${pad2(month)}-${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}.${pad3(milliseconds)}`;
         }
         SYSLOG_TIMESTAMP => {
             string monthAbbr = getMonthAbbr(month, locale);
-            return string`${monthAbbr} ${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
+            return string `${monthAbbr} ${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
         }
         APACHE_LOG => {
             string monthAbbr = getMonthAbbr(month, locale);
-            return string`${pad2(day)}/${monthAbbr}/${year}:${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)} +0000`;
+            return string `${pad2(day)}/${monthAbbr}/${year}:${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)} +0000`;
         }
         SORTABLE_DATETIME => {
-            return string`${year}${pad2(month)}${pad2(day)}${pad2(hour)}${pad2(minute)}${pad2(wholeSeconds)}`;
+            return string `${year}${pad2(month)}${pad2(day)}${pad2(hour)}${pad2(minute)}${pad2(wholeSeconds)}`;
         }
         SORTABLE_DATE => {
-            return string`${year}${pad2(month)}${pad2(day)}`;
+            return string `${year}${pad2(month)}${pad2(day)}`;
         }
         _ => {
-            return string`${year}-${pad2(month)}-${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
+            return string `${year}-${pad2(month)}-${pad2(day)} ${pad2(hour)}:${pad2(minute)}:${pad2(wholeSeconds)}`;
         }
     }
 }
@@ -297,7 +407,7 @@ public isolated function toString(@display {label: "UTC Time"} time:Utc utcTime,
 #
 # Note: Currently supports ISO_8601, ISO_8601_Z, and YYYY_MM_DD formats.
 # For other formats, falls back to standard Ballerina parsing.
-# 
+#
 # + timeStr - The time string to parse
 # + format - The format enum to use for parsing  
 # + return - The parsed UTC time or an error if parsing fails

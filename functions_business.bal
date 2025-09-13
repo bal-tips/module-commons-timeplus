@@ -68,21 +68,21 @@ public isolated function previousWeekday(@display {label: "UTC Time"} time:Utc u
 public isolated function addBusinessDays(@display {label: "UTC Time"} time:Utc utcTime, @display {label: "Business Days"} int businessDays) returns time:Utc|time:Error {
     time:Utc result = utcTime;
     int remainingDays = businessDays;
-    
+
     while remainingDays > 0 {
         result = check addDays(result, 1);
         if isWeekday(result) {
             remainingDays -= 1;
         }
     }
-    
+
     while remainingDays < 0 {
         result = check subtractDays(result, 1);
         if isWeekday(result) {
             remainingDays += 1;
         }
     }
-    
+
     return result;
 }
 
@@ -105,41 +105,41 @@ public isolated function age(@display {label: "Birth Time"} time:Utc birthTime, 
 @display {label: "Convert Duration to Human Readable", iconPath: "icon.png"}
 public isolated function humanizeDuration(@display {label: "Duration"} Duration duration, @display {label: "Locale"} Locale locale = EN) returns string {
     string[] parts = [];
-    
+
     if duration.years is int && duration.years > 0 {
         string unitName = getUnitName(YEAR, locale, duration.years == 1);
         parts.push(duration.years.toString() + " " + unitName);
     }
-    
+
     if duration.months is int && duration.months > 0 {
         string unitName = getUnitName(MONTH, locale, duration.months == 1);
         parts.push(duration.months.toString() + " " + unitName);
     }
-    
+
     if duration.days is int && duration.days > 0 {
         string unitName = getUnitName(DAY, locale, duration.days == 1);
         parts.push(duration.days.toString() + " " + unitName);
     }
-    
+
     if duration.hours is int && duration.hours > 0 {
         string unitName = getUnitName(HOUR, locale, duration.hours == 1);
         parts.push(duration.hours.toString() + " " + unitName);
     }
-    
+
     if duration.minutes is int && duration.minutes > 0 {
         string unitName = getUnitName(MINUTE, locale, duration.minutes == 1);
         parts.push(duration.minutes.toString() + " " + unitName);
     }
-    
+
     if parts.length() == 0 {
         string unitName = getUnitName(SECOND, locale, false); // Always plural for "0 seconds"
         return "0 " + unitName;
     }
-    
+
     if parts.length() == 1 {
         return parts[0];
     }
-    
+
     // Join with commas and "and" for the last item
     string result = "";
     foreach int i in 0 ..< parts.length() - 1 {
@@ -149,7 +149,7 @@ public isolated function humanizeDuration(@display {label: "Duration"} Duration 
         result += parts[i];
     }
     result += " and " + parts[parts.length() - 1];
-    
+
     return result;
 }
 
@@ -173,7 +173,7 @@ public isolated function formatDuration(@display {label: "Duration"} Duration du
             string hourStr = hours < 10 ? "0" + hours.toString() : hours.toString();
             string minStr = minutes < 10 ? "0" + minutes.toString() : minutes.toString();
             string secStr = wholeSeconds < 10 ? "0" + wholeSeconds.toString() : wholeSeconds.toString();
-            return string`${hourStr}:${minStr}:${secStr}`;
+            return string `${hourStr}:${minStr}:${secStr}`;
         }
         "human" => {
             return humanizeDuration(duration);

@@ -22,13 +22,13 @@ public isolated function now() returns time:Utc {
     return time:utcNow();
 }
 
-
-
-# Returns today's date at 00:00:00 UTC
+# Returns today's date
 #
-# + return - Today's date at midnight UTC
+# This function can return an error value if the date calculation fails. Check logs for details.
+#
+# + return - Today's date at midnight UTC or an error
 @display {label: "Get Today's Date", iconPath: "icon.png"}
-public isolated function today() returns time:Utc|time:Error {
+public isolated function today() returns time:Utc {
     time:Civil civilTime = time:utcToCivil(time:utcNow());
     time:Civil todayCivil = {
         year: civilTime.year,
@@ -37,14 +37,24 @@ public isolated function today() returns time:Utc|time:Error {
         hour: 0,
         minute: 0,
         second: 0.0d,
-        utcOffset: {hours: 0, minutes: 0}  // UTC timezone
+        utcOffset: {hours: 0, minutes: 0} // UTC timezone
     };
-    return time:utcFromCivil(todayCivil);
+    // If this panics, it indicates a serious issue with the civil time conversion.
+    time:Utc result = checkpanic time:utcFromCivil(todayCivil);
+    return result;
 }
 
-
+# Returns the current UTC time
+# + return - The current UTC time
+@display {label: "Get Current UTC Time", iconPath: "icon.png"}
+public isolated function Now() returns time:Utc {
+    return time:utcNow();
+}
 
 # Creates a UTC time from individual components
+#
+# This function can return an error if the provided date/time values are invalid
+# (e.g., February 30, hour 25, minute 65, etc.)
 #
 # + year - The year
 # + month - The month (1-12)
@@ -62,14 +72,14 @@ public isolated function create(@display {label: "Year"} int year, @display {lab
         hour: hour,
         minute: minute,
         second: second,
-        utcOffset: {hours: 0, minutes: 0}  // UTC timezone
+        utcOffset: {hours: 0, minutes: 0} // UTC timezone
     };
     return time:utcFromCivil(civilTime);
 }
 
-
-
 # Parses an ISO 8601 formatted string
+#
+# This function can return an error if the time string is malformed or invalid
 #
 # + timeStr - The ISO 8601 time string
 # + return - The parsed UTC time or an error
@@ -79,6 +89,8 @@ public isolated function parseIso8601(@display {label: "Time String"} string tim
 }
 
 # Parses an RFC 3339 formatted string
+#
+# This function can return an error if the time string is malformed or invalid
 #
 # + timeStr - The RFC 3339 time string
 # + return - The parsed UTC time or an error
