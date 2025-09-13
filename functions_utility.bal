@@ -44,13 +44,6 @@ public isolated function today() returns time:Utc {
     return result;
 }
 
-# Returns the current UTC time
-# + return - The current UTC time
-@display {label: "Get Current UTC Time", iconPath: "icon.png"}
-public isolated function Now() returns time:Utc {
-    return time:utcNow();
-}
-
 # Creates a UTC time from individual components
 #
 # This function can return an error if the provided date/time values are invalid
