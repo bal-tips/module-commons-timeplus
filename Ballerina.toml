@@ -1,7 +1,7 @@
 [package]
 org = "commons"
 name = "timeplus"
-version = "0.2.0"
+version = "0.2.1"
 distribution = "2201.12.9"
 authors = ["Hasitha Aravinda"]
 keywords = ["time", "datetime", "timezones", "time-formatting", "time-parsing"]

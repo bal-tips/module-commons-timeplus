@@ -75,7 +75,7 @@ modules = [
 [[package]]
 org = "commons"
 name = "timeplus"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
 	{org = "ballerina", name = "test"},
 	{org = "ballerina", name = "time"}
